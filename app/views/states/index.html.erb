@@ -1,0 +1,7 @@
+<h1>Choose a State</h1>
+
+<ul>
+<% State.all.each do |state| %>
+  <li><%= link_to state.name, state_path(state.code.downcase) %></li>
+<% end %>
+</ul>

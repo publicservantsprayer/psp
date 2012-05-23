@@ -1,4 +1,11 @@
 Psp::Application.routes.draw do
+  root to: 'states#index'
+  #match "/states/:code" => "states#show"
+  #match "/states", to: 'states#index'
+  resources :states
+
+  match "/states/:id/:year/:month/:day", to: "states#show"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
