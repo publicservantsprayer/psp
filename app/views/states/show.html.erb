@@ -10,37 +10,16 @@
 
 <div class="row">
   <div class="span6">
-    <div class="well">
-      <% if @state.multiple_chambers? %>
-        <h3>Senate</h3>
-        <h4><%= @member1.name %></h4>
-      <% else %>
-        <h3><%= @member1.name %></h3>
-      <% end %>
-      <%= image_tag @member1.photo_src, class: 'head-shot' %>
-
-      <ul>
-      <%= content_tag('li', link_to("Website", @member1.website)) unless @member1.website.blank? %>
-      <%= content_tag('li', link_to("Facebook", @member1.facebook)) unless @member1.facebook.blank? %>
-      <%= content_tag('li', link_to("Email", "mailto: #{@member1.email}")) unless @member1.email.blank? %>
-      </ul>
-    </div>
+    <% if @state.dual_chamber? %>
+      <h2>House</h2>
+    <% end %>
+    <%= render :partial => 'member', locals: {member: @member1} %>
   </div>
   <div class="span6">
-    <div class="well">
-      <% if @state.multiple_chambers? %>
-        <h3>House</h3>
-        <h4><%= @member2.name %></h4>
-      <% else %>
-        <h3><%= @member2.name %></h3>
-      <% end %>
-      <%= image_tag @member2.photo_src, class: 'head-shot' %>
-      <ul>
-      <%= content_tag('li', link_to("Website", @member2.website)) unless @member2.website.blank? %>
-      <%= content_tag('li', link_to("Facebook", @member2.facebook)) unless @member2.facebook.blank? %>
-      <%= content_tag('li', link_to("Email", "mailto: #{@member2.email}")) unless @member2.email.blank? %>
-      </ul>
-    </div>
+    <% if @state.dual_chamber? %>
+      <h2>Senate</h2>
+    <% end %>
+    <%= render :partial => 'member', locals: {member: @member2} %>
   </div>
 </div>
 

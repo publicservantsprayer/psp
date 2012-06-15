@@ -1,11 +1,14 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.3'
+gem 'bootstrap-sass', "~> 2.0.0"
+
+gem "mongoid", "~> 2.4"
+gem "bson_ext", "~> 1.5"
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-#gem 'sqlite3'
 
 
 # Gems used only for assets and not required
@@ -21,6 +24,17 @@ group :assets do
 end
 
 gem 'jquery-rails'
+
+group :test, :development do
+  gem 'sqlite3'
+  gem 'rspec-rails', '2.8.1'
+  gem 'capybara', '1.1.2'
+  gem 'guard-rspec'
+  gem 'guard-spork'
+  gem 'database_cleaner', "~> 0.7.2"
+  gem 'factory_girl_rails', "~> 3.0"
+  gem 'delorean'
+end
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

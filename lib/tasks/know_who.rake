@@ -1,10 +1,23 @@
 require 'csv'
 
 namespace :know_who do
-  task :import => :environment do
+  task :delete_existing_data => :environment do
     puts "removing old state data"
     count = State.delete_all
     puts "removed #{count} state records"
+
+    puts "removing old member data"
+    count = Member.delete_all
+    puts "removed #{count} member records"
+  end
+
+  task :import => :environment do
+    Rake::Task["import_state_records"].execute
+    Rake::Task["import_member_records"].execute
+    Rake::Task["import_bio_records"].execute
+  end
+
+  task :import_state_records => :environment do
     puts "importing new state records"
     states = CSV.table("know_who/States.utf8.csv")
     states.each do |state|
@@ -14,17 +27,18 @@ namespace :know_who do
       )
       puts "Added #{state[:statename]}"
     end
+  end
 
+  task :import_member_records => :environment do
     legacy_fields = ["UID","PID","LEGTYPE","CHAMBER","CHAMBERANK","STATECODE","STATE","DISTRICT","DISTRAIL","DISTYPE","PARTYRANK","PERCENTVOT","ELECTDATE","REELECTYR","ELECTCODE","FECLINK","PYRACUSC","CYRACUSC","PYRADASC","CYRADASC","PYRAFLSC","CYRAFLSC","PYRUSCOSC","CYRUSCOSC","SEATSTCODE","SEATSTAT","DISTRICTID","SEATID","PARTYCODE","FIRSTNAME","LASTNAME","MIDNAME","NICKNAME","PREFIX","GENSUFFIX","TITLE","PROFSUFFIX","GENDER","LEGALNAME","PRONUNCTON","BIRTHPLACE","BIRTHYEAR","BIRTHMONTH","BIRTHDATE","MARITAL","SPOUSE","RESIDENCE","FAMILY","RELIGCODE","RELIGION","ETHCODE","ETHNICS","REOFC1","REOFC1DATE","REOFC2","REOFC2DATE","RECOCCODE1","RECENTOCC1","RECOCCODE2","RECENTOCC2","SCHOOL1","DEGREE1","EDUDATE1","SCHOOL2","DEGREE2","EDUDATE2","SCHOOL3","DEGREE3","EDUDATE3","MILBRANCH1","MILRANK1","MILDATES1","MILBRANCH2","MILRANK2","MILDATES2","MAILNAME","MAILTITLE","MAILADDR1","MAILADDR2","MAILADDR3","MAILADDR4","MAILADDR5","EMAIL","WEBFORM","WEBSITE","WEBLOG","FACEBOOK","TWITTER","YOUTUBE","PHOTOPATH","PHOTOFILE"]
 
-    puts "removing old member data"
-    count = Member.delete_all
-    puts "removed #{count} member records"
     puts "importing new member records"
     CSV.foreach("know_who/Members.utf8.csv", headers: true, header_converters: :symbol) do |member|
       state = State.first(conditions: { code: member[:statecode] })
       if state
         new_member = state.members.new(
+          person_id: member[:pid],
+          title: member[:title],
           first_name: member[:firstname],
           last_name: member[:lastname],
           mid_name: member[:midname],
@@ -38,13 +52,46 @@ namespace :know_who do
           religion: member[:religion],
           email: member[:email],
           website: member[:website],
+          webform: member[:webform],
+          weblog: member[:weblog],
           blog: member[:weblog],
           facebook: member[:facebook],
           twitter: member[:twitter],
           youtube: member[:youtube],
           photo_path: member[:photopath],
           photo_file: member[:photofile],
-          chamber: member[:chamber]
+          chamber: member[:chamber],
+          gender: member[:gender],
+          party_code: member[:partycode],
+          birth_place: member[:birthplace],
+          birth_year: member[:birthyear],
+          birth_month: member[:birthmonth],
+          birth_day: member[:birthday],
+          spouse: member[:spouse],
+          marital_status: member[:marital],
+          residence: member[:residence],
+          school_1_name: member[:school1],
+          school_1_date: member[:edudate1],
+          school_1_degree: member[:degree1],
+          school_2_name: member[:school2],
+          school_2_date: member[:edudate2],
+          school_2_degree: member[:degree2],
+          school_3_name: member[:school3],
+          school_3_date: member[:edudate3],
+          school_3_degree: member[:degree3],
+          military_1_branch: member[:milbranch1],
+          military_1_rank: member[:milrank1],
+          military_1_dates: member[:mildates1],
+          military_2_branch: member[:milbranch2],
+          military_2_rank: member[:milrank2],
+          military_2_dates: member[:mildates2],
+          mail_name: member[:mailname],
+          mail_title: member[:mailtitle],
+          mail_address_1: member[:mailaddr1],
+          mail_address_2: member[:mailaddr2],
+          mail_address_3: member[:mailaddr3],
+          mail_address_4: member[:mailaddr4],
+          mail_address_5: member[:mailaddr5]
         )
         legacy_fields.each do |field|
           field = field.downcase.to_sym
@@ -57,5 +104,30 @@ namespace :know_who do
         puts "no state found"
       end
     end
+  end
+
+  task :import_bio_records => :environment do
+    begin
+      CSV.foreach("know_who/Biographies.utf8.csv", headers: true, header_converters: :symbol) do |bio|
+        #member = Member.first(conditions: { person_id: bio[:pid] })
+        #member.update_attributes(
+        #  biography: bio[:document],
+        #  biography_updated_on: bio[:biodate],
+        #)
+        print "."
+        #puts "Updated bio for #{member.name}"
+        #sleep 3
+        @bio = bio
+      end
+    rescue
+      puts "Error on bio for #{@bio[:pid]}"
+    end 
+  end
+
+  task :setup_files => :environment do
+    `iconv -c -f ASCII -t UTF8 ~/code/psp-data/government_1/Biographies.csv > ~/code/psp/know_who/Biographies.utf8.csv`
+    `iconv -c -f ASCII -t UTF8 ~/code/psp-data/government_1/Members.csv > ~/code/psp/know_who/Members.utf8.csv`
+    `iconv -c -f ASCII -t UTF8 ~/code/psp-data/government_1/States.csv > ~/code/psp/know_who/States.utf8.csv`
+    `fromdos know_who/*.csv`
   end
 end

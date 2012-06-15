@@ -2,76 +2,73 @@ require 'spec_helper'
 
 describe "States page" do
   before do
-    texas = State.create(code: "TX", name: "Texas")
-    texas.members.create(
-      first_name: "Joe", 
-      last_name: "Shmoe", 
-      nick_name: "Joe",
-      photo_path: 'Images\Photos\SL\IN\S',
-      photo_file: 'Landske_Dorothy_194409.jpg',
-      chamber: 'S',
-      website: 'S',
-      facebook: 'S',
-      email: 'S',
-    )
-    texas.members.create(
-      first_name: "Joe2", 
-      last_name: "Shmoe2", 
-      nick_name: "Joe2",
-      photo_path: 'Images\Photos\SL\IN\S',
-      photo_file: 'Landske_Dorothy_194409.jpg',
-      chamber: 'S',
-      website: 'S',
-      facebook: 'S',
-      email: 'S',
-    )
-    indiana = State.create(code: "IN", name: "Indiana")
-    indiana.members.create(
-      first_name: "Peggy", 
-      last_name: "Welch", 
-      nick_name: "Peggy",
-      photo_path: 'Images\Photos\SL\IN\S',
-      photo_file: 'Landske_Dorothy_194409.jpg',
-      chamber: 'H',
-      website: 'S',
-      facebook: 'S',
-      email: 'S',
-    )
-    indiana.members.create(
-      first_name: "Ben", 
-      last_name: "Smith", 
-      nick_name: "Benny",
-      photo_path: 'Images\Photos\SL\IN\S',
-      photo_file: 'Landske_Dorothy_194409.jpg',
-      chamber: 'S',
-      website: 'S',
-      facebook: 'S',
-      email: 'S',
-    )
+    indiana = FactoryGirl.create(:state_with_dual_chamber, code: "IN", name: "Indiana")
+    nebraska = FactoryGirl.create(:state_with_only_senators, code: "NE", name: "Nebraska")
   end
 
-  context "Date" do
-    it "show the date for any date in url" do
-      visit "/states/tx/2012/05/23"
-      page.should have_content("Wednesday, May 23, 2012")
+  #context "Date" do
+  #  it "show the date for any date in url" do
+  #    visit "/states/in/2012/05/23"
+  #    page.should have_content("Wednesday, May 23, 2012")
+  #  end
+  #end
+
+  context "Indiana" do
+    before do
+      visit "/states/in"
+    end
+    it "shows a unique date, each day" do
+      date = find("h2.date").text
+      time_travel_to("tomorrow") do
+        visit "/states/in"
+        date.should_not == find("h2.date").text
+      end
+    end
+
+    context "Rotation" do
+      it "shows a different member on different days" do
+        name = find(".member-name").text
+        time_travel_to("tomorrow") do
+          visit "/states/in"
+          name.should_not == find(".member-name").text
+        end
+      end
     end
   end
 
-  context "Texas" do
+  context "nebraska" do
     before do
-      visit "/states/tx"
+      visit "/states/ne"
     end
 
     it "shows specific state" do
-      page.should have_content("Texas")
+      page.should have_content("Nebraska")
     end
 
     it "shows name of member for state" do
-      page.should have_content("Joe Shmoe")
+      #page.should have_content("Joe Shmoe")
     end
 
     it "shows name of member for state" do
-      page.should have_content("Joe2 Shmoe2")
+      #page.should have_content("Joe2 Shmoe2")
+    end
+
+    it "shows a unique date, each day" do
+      date = find("h2.date").text
+      time_travel_to("tomorrow") do
+        visit "/states/ne"
+        date.should_not == find("h2.date").text
+      end
+    end
+
+    context "Rotation" do
+      it "shows a different member on different days" do
+        name = find(".member-name").text
+        time_travel_to("tomorrow") do
+          visit "/states/ne"
+          name.should_not == find(".member-name").text
+        end
+      end
     end
   end
 
@@ -86,16 +83,20 @@ describe "States page" do
 
     it "shows name of representative for state" do
       page.should have_content("House")
-      page.should have_content("Peggy Welch")
+      #page.should have_content("Peggy Welch")
     end
 
     it "shows name of senator for state" do
       page.should have_content("Senate")
-      page.should have_content("Benny Smith")
+      #page.should have_content("Benny Smith")
     end
 
     it "includes image of member" do
       page.should have_selector('img.head-shot')
+    end
+
+    it "shows biography" do
+      page.should have_selector(".biography")
     end
   end
 end

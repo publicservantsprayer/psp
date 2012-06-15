@@ -1,0 +1,21 @@
+<div class="well">
+  <div class="row">
+    <div class="span2">
+      <%= image_tag member.photo_src, class: 'head-shot' %>
+    </div>
+    <div class="span3">
+      <h3 class="member-name"><%= member.name %></h3>
+      <%= member.information %>,
+      <ul>
+      <%= content_tag('li', link_to("Website", member.website)) unless member.website.blank? %>
+      <%= content_tag('li', link_to("Contact Form", member[:webform])) unless member[:webform].blank? %>
+      <%= content_tag('li', link_to("Facebook", member.facebook)) unless member.facebook.blank? %>
+      <%= content_tag('li', link_to("Email", "mailto: #{member.email}")) unless member.email.blank? %>
+      </ul>
+    </div>
+  </div>
+  <div class="biography">
+    <h4>More Information</h4>
+    <%= simple_format member[:biography] %>
+  </div>
+</div>

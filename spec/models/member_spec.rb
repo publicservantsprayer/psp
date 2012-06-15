@@ -8,4 +8,15 @@ describe "Member" do
     end
   end
 
+  context "#information" do
+    it "compiles information on existing data" do
+      member = Member.create(birth_place: "Timbuktu", name: "bob")
+      member.information.should include('Born in Timbuktu')
+    end
+    it "skips missing data" do
+      member = Member.create(name: "bob")
+      member.information.should_not include('Born in')
+    end
+  end
+
 end

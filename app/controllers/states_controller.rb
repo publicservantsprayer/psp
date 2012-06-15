@@ -11,12 +11,7 @@ class StatesController < ApplicationController
       @date = Date.today
     end
     @state = State.first(conditions: {code: params[:id].upcase}) 
-    if @state.multiple_chambers?
-      @member1 = @state.members.senate.first
-      @member2 = @state.members.house.first
-    else
-      @member1 = @state.members.first
-      @member2 = @state.members.last
-    end
+    @member1 = @state.member_one(@date)
+    @member2 = @state.member_two(@date)
   end
 end
