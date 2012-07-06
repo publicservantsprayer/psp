@@ -13,10 +13,12 @@ FactoryGirl.define do
     
     factory :senator do
       chamber "S"
+      title "Senator"
     end
 
     factory :representative do
       chamber "H"
+      title "Representative"
     end
   end
 

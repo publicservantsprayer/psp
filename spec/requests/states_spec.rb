@@ -81,22 +81,17 @@ describe "States page" do
       page.should have_content("Indiana")
     end
 
-    it "shows name of representative for state" do
-      page.should have_content("House")
-      #page.should have_content("Peggy Welch")
+    it "shows representative for state" do
+      page.should have_content("Representative")
     end
 
-    it "shows name of senator for state" do
-      page.should have_content("Senate")
-      #page.should have_content("Benny Smith")
+    it "shows senator for state" do
+      page.should have_content("Senator")
     end
 
     it "includes image of member" do
       page.should have_selector('img.head-shot')
     end
 
-    it "shows biography" do
-      page.should have_selector(".biography")
-    end
   end
 end
