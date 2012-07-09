@@ -2,6 +2,7 @@ class Member
   include Mongoid::Document
   belongs_to :state
 
+  field :legislator_type, type: String
   field :title, type: String
   field :first_name, type: String
   field :last_name, type: String
@@ -59,6 +60,12 @@ class Member
   def birth_month_name
     month = read_attribute(:birth_month).to_i
     Date::MONTHNAMES[month]
+  end
+
+  def birthday
+    unless read_attribute(:birth_day).blank?
+      "#{birth_month_name}, #{read_attribute(:birth_day).to_i.ordinalize}"
+    end
   end
 
   def born

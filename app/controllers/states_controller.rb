@@ -11,6 +11,7 @@ class StatesController < ApplicationController
       @date = Date.today
     end
     @state = State.first(conditions: {code: params[:id].upcase}) 
+    @member0 = @state.member_zero(@date)
     @member1 = @state.member_one(@date)
     @member2 = @state.member_two(@date)
   end

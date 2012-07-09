@@ -11,10 +11,9 @@
 <% end %>
 
 <div class="row-fluid">
-  <div class="span6">
+  <div class="">
+    <%= render :partial => 'member', locals: {member: @member0} %>
     <%= render :partial => 'member', locals: {member: @member1} %>
-  </div>
-  <div class="span6">
     <%= render :partial => 'member', locals: {member: @member2} %>
   </div>
 </div>

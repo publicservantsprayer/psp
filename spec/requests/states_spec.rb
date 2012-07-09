@@ -3,7 +3,7 @@ require 'spec_helper'
 describe "States page" do
   before do
     indiana = FactoryGirl.create(:state_with_dual_chamber, code: "IN", name: "Indiana")
-    nebraska = FactoryGirl.create(:state_with_only_senators, code: "NE", name: "Nebraska")
+    nebraska = FactoryGirl.create(:state_with_single_chamber, code: "NE", name: "Nebraska")
   end
 
   #context "Date" do
@@ -17,6 +17,7 @@ describe "States page" do
     before do
       visit "/states/in"
     end
+
     it "shows a unique date, each day" do
       date = find("h2.date").text
       time_travel_to("tomorrow") do

@@ -12,13 +12,27 @@ FactoryGirl.define do
     photo_file 'Landske_Dorothy_194409.jpg'
     
     factory :senator do
+      legislator_type "SL"
       chamber "S"
       title "Senator"
     end
 
     factory :representative do
+      legislator_type "SL"
       chamber "H"
       title "Representative"
+    end
+    
+    factory :us_senator do
+      legislator_type "FL"
+      chamber "S"
+      title "US Senator"
+    end
+
+    factory :us_representative do
+      legislator_type "FL"
+      chamber "H"
+      title "US Representative"
     end
   end
 
@@ -26,23 +40,15 @@ FactoryGirl.define do
     name "Texas"
     code "TX"
 
-    factory :state_with_members do
-      ignore do
-        members_count 5
-      end
-
-      after(:create) do |state, evaluator|
-        FactoryGirl.create_list(:member, evaluator.members_count, state: state)
-      end
-    end
-
     factory :state_with_single_chamber do
       ignore do
         members_count 5
       end
 
       after(:create) do |state, evaluator|
-        FactoryGirl.create_list(:representative, evaluator.members_count, state: state)
+        FactoryGirl.create_list(:senator, evaluator.members_count, state: state, legislator_type: "SL")
+        FactoryGirl.create_list(:us_senator, evaluator.members_count, state: state)
+        FactoryGirl.create_list(:us_representative, evaluator.members_count, state: state)
       end
     end
 
@@ -52,20 +58,13 @@ FactoryGirl.define do
       end
 
       after(:create) do |state, evaluator|
-        FactoryGirl.create_list(:senator, evaluator.members_count, state: state)
-        FactoryGirl.create_list(:representative, evaluator.members_count, state: state)
+        FactoryGirl.create_list(:senator, evaluator.members_count, state: state, legislator_type: "SL")
+        FactoryGirl.create_list(:representative, evaluator.members_count, state: state, legislator_type: "SL")
+        FactoryGirl.create_list(:us_senator, evaluator.members_count, state: state)
+        FactoryGirl.create_list(:us_representative, evaluator.members_count, state: state)
       end
     end
 
-    factory :state_with_only_senators do
-      ignore do
-        members_count 5
-      end
-
-      after(:create) do |state, evaluator|
-        FactoryGirl.create_list(:senator, evaluator.members_count, state: state)
-      end
-    end
   end
 
 end
