@@ -1,59 +1,30 @@
-class Member
-  include Mongoid::Document
+class Member < ActiveRecord::Base
   belongs_to :state
 
-  field :legislator_type, type: String
-  field :title, type: String
-  field :first_name, type: String
-  field :last_name, type: String
-  field :nick_name, type: String
-  field :gender, type: String
-  field :photo_path, type: String
-  field :photo_file, type: String
-  field :religion, type: String
-  field :chamber, type: String
-  field :district, type: String
-  field :family, type: String
-  field :website, type: String
-  field :facebook, type: String
-  field :email, type: String
-  field :party_code, type: String
-  field :twitter, type: String
-  field :birth_place, type: String
-  field :birth_month, type: String
-  field :birth_day, type: String
-  field :spouse, type: String
-  field :marital, type: String
-  field :residence, type: String
-  field :school_1_name, type: String
-  field :school_1_date, type: String
-  field :school_1_degree, type: String
-  field :school_2_name, type: String
-  field :school_2_date, type: String
-  field :school_2_degree, type: String
-  field :school_3_name, type: String
-  field :school_3_date, type: String
-  field :school_3_degree, type: String
-  field :military_1_branch, type: String
-  field :military_1_rank, type: String
-  field :military_1_dates, type: String
-  field :military_2_branch, type: String
-  field :military_2_rank, type: String
-  field :military_2_dates, type: String
-  field :mail_name, type: String
-  field :mail_title, type: String
-  field :mail_address_1, type: String
-  field :mail_address_2, type: String
-  field :mail_address_3, type: String
-  field :mail_address_4, type: String
-  field :mail_address_5, type: String
+  attr_protected :person_id
+
+  scope :state,         where(legislator_type: "SL").order(:district)
+  scope :state_house,   where(legislator_type: "SL", chamber: "H").order(:district)
+  scope :state_senate,  where(legislator_type: "SL", chamber: "S").order(:district)
+  scope :us,            where(legislator_type: "FL").order(:district)
+  scope :us_house,      where(legislator_type: "FL", chamber: "H").order(:district)
+  scope :us_senate,     where(legislator_type: "FL", chamber: "S").order(:district)
 
   def name
     "#{nick_name} #{last_name}"
   end
 
+  def prefix_name
+    if legislator_type == "FL"
+     "US #{prefix} #{name}"
+    else
+     "#{prefix} #{name}"
+    end
+  end
+
   def photo_src
     path = photo_path.split("\\")
+    return "/assets/no_photo.gif" if path.blank? or photo_file.blank?
     "/#{path[1].downcase}/#{path[2]}/#{path[3]}/#{path[4]}/#{photo_file}"
   end
 
@@ -171,4 +142,5 @@ class Member
     end
     str.html_safe
   end
+  
 end

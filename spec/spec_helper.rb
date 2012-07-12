@@ -15,18 +15,6 @@ Spork.prefork do
   Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
   RSpec.configure do |config|
-    config.before(:suite) do
-      DatabaseCleaner[:mongoid].strategy = :truncation
-      DatabaseCleaner[:mongoid].clean_with(:truncation)
-    end
-
-    config.before(:each) do
-      DatabaseCleaner[:mongoid].start
-    end
-
-    config.after(:each) do
-      DatabaseCleaner[:mongoid].clean
-    end
 
     # Time Travel
     config.include Delorean
@@ -46,6 +34,18 @@ Spork.prefork do
     # examples within a transaction, remove the following line or assign false
     # instead of true.
     #config.use_transactional_fixtures = true
+    config.before(:suite) do
+      DatabaseCleaner.strategy = :transaction
+      DatabaseCleaner.clean_with(:truncation)
+    end
+
+    config.before(:each) do
+      DatabaseCleaner.start
+    end
+
+    config.after(:each) do
+      DatabaseCleaner.clean
+    end
 
     # If true, the base class of anonymous controllers will be inferred
     # automatically. This will be the default behavior in future versions of

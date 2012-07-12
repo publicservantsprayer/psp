@@ -1,7 +1,20 @@
-<h1>Choose a State</h1>
+<div class="row-fluid"> 
 
-<ul>
-<% State.all.each do |state| %>
-  <li><%= link_to state.name, state_path(state.code.downcase) %></li>
-<% end %>
-</ul>
+  <%= render :partial => 'map' %>
+
+  <div class="row-fluid">
+    <% current_page = 0 %>
+    <% state_count = 51 %>
+    <% while state_count > 0 %>
+      <div class="span2">
+        <ul class="">
+          <% State.all_minus_dc.offset(current_page * 10).limit(10).order('name').each do |state| %>
+            <li style="display:block" class="btn btn-small"><%= link_to state.name, state_path(state.code.downcase) %></li>
+          <% end %>
+        </ul>
+        <% state_count -= 10 %>
+        <% current_page += 1 %>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -1,6 +1,19 @@
 require 'spec_helper'
 
 describe State do
+  it "has default last_incremented_on date == today" do
+    state = State.create
+    state.last_incremented_on.should == Date.today
+  end
+
+  context "#find_by_ip" do
+    indiana_ip = '50.102.5.56'
+    washington_ip = '216.177.233.162'
+    FactoryGirl.create(:state, code: "IN")
+    FactoryGirl.create(:state, code: "WA")
+    State.find_by_ip(indiana_ip).code.should == "IN"
+    State.find_by_ip(washington_ip).code.should == "WA"
+  end
 
   context "#increment_single_chamber" do
     it "increments pointer_zero by 1" do
@@ -49,7 +62,8 @@ describe State do
 
   context "#verify_incremented" do
     it "increments if not yet incremented today" do
-      state = FactoryGirl.create(:state, last_incremented_on: Date.yesterday)
+      state = FactoryGirl.create(:state)
+      state.update_attribute(:last_incremented_on, Date.yesterday)
       pointer_zero_before = state.pointer_zero
       pointer_one_before = state.pointer_one
       pointer_two_before = state.pointer_two
@@ -61,14 +75,12 @@ describe State do
     end
 
     it "does not increment if already incremented today" do
-      state = FactoryGirl.create(:state, last_incremented_on: Date.yesterday)
-      state.verify_incremented
-      state.reload
+      state = FactoryGirl.create(:state)
+      state.update_attribute(:last_incremented_on, Date.today)
       pointer_zero_before = state.pointer_zero
       pointer_one_before = state.pointer_one
       pointer_two_before = state.pointer_two
       state.verify_incremented
-      state.reload
       pointer_zero_before.should == state.pointer_zero
       pointer_one_before.should == state.pointer_one
       pointer_two_before.should == state.pointer_two

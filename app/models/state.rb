@@ -1,38 +1,19 @@
-class State
-  include Mongoid::Document
-  has_many :members do
-    def state
-      where(legislator_type: "SL").ascending(:district)
-    end
+class State < ActiveRecord::Base
+  has_many :members 
 
-    def state_house
-      where(legislator_type: "SL", chamber: "H").ascending(:district)
-    end
+  scope :all_minus_dc, where(is_state: true)
 
-    def state_senate
-      where(legislator_type: "SL", chamber: "S").ascending(:district)
-    end
-
-    def us
-      where(legislator_type: "FL").ascending(:district)
-    end
-
-    def us_house
-      where(legislator_type: "FL", chamber: "H").ascending(:district)
-    end
-
-    def us_senate
-      where(legislator_type: "FL", chamber: "S").ascending(:district)
-    end
-
+  before_create :set_last_incremented_on_to_today
+  def set_last_incremented_on_to_today
+    write_attribute :last_incremented_on, Date.today
   end
 
-  field :code, type: String
-  field :name, type: String
-  field :pointer_zero, type: Integer, default: 0
-  field :pointer_one, type: Integer, default: 0
-  field :pointer_two, type: Integer, default: 1
-  field :last_incremented_on, type: Date, default: -> { Date.today }
+  def self.find_by_ip(ip)
+    require 'geoip'
+    db = GeoIP::City.new('geoip/GeoLiteCity.dat')
+    result = db.look_up(ip)
+    where(code: result[:region]).first
+  end
 
   # state only
   def dual_chamber?
@@ -52,12 +33,12 @@ class State
   end
 
   def increment_pointers
+    update_attribute(:last_incremented_on, Date.today)
     if dual_chamber?
       increment_dual_chamber
     else
       increment_single_chamber
     end
-    update_attribute(:last_incremented_on, Date.today)
   end
 
   def increment_single_chamber
@@ -123,6 +104,7 @@ class State
     number_of_days = date - Date.today 
     pointer = pointer_one + number_of_days
     while pointer >= count
+      break if count < 1
       pointer = pointer - count 
     end
     self.members.state[pointer]
@@ -133,6 +115,7 @@ class State
     number_of_days = date - Date.today 
     pointer = pointer_two + number_of_days
     while pointer >= count
+      break if count < 1
       pointer = pointer - count 
     end
     self.members.state[pointer]
@@ -143,6 +126,7 @@ class State
     number_of_days = date - Date.today 
     pointer = pointer_zero + number_of_days
     while pointer >= count
+      break if count < 1
       pointer = pointer - count 
     end
     self.members.us[pointer]
@@ -153,6 +137,7 @@ class State
     number_of_days = date - Date.today 
     pointer = pointer_two + number_of_days
     while pointer >= count
+      break if count < 1
       pointer = pointer - count 
     end
     self.members.state_senate[pointer]
@@ -163,9 +148,71 @@ class State
     number_of_days = date - Date.today 
     pointer = pointer_one + number_of_days
     while pointer >= count
+      break if count < 1
       pointer = pointer - count 
     end
     self.members.state_house[pointer]
+  end
+
+  def self.us_codes
+    ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"]
+  end
+
+  # Currently unused
+  def self.us_names
+    [
+      ['Alabama', 'AL'],
+      ['Alaska', 'AK'],
+      ['Arizona', 'AZ'],
+      ['Arkansas', 'AR'],
+      ['California', 'CA'],
+      ['Colorado', 'CO'],
+      ['Connecticut', 'CT'],
+      ['Delaware', 'DE'],
+      ['District of Columbia', 'DC'],
+      ['Florida', 'FL'],
+      ['Georgia', 'GA'],
+      ['Hawaii', 'HI'],
+      ['Idaho', 'ID'],
+      ['Illinois', 'IL'],
+      ['Indiana', 'IN'],
+      ['Iowa', 'IA'],
+      ['Kansas', 'KS'],
+      ['Kentucky', 'KY'],
+      ['Louisiana', 'LA'],
+      ['Maine', 'ME'],
+      ['Maryland', 'MD'],
+      ['Massachusetts', 'MA'],
+      ['Michigan', 'MI'],
+      ['Minnesota', 'MN'],
+      ['Mississippi', 'MS'],
+      ['Missouri', 'MO'],
+      ['Montana', 'MT'],
+      ['Nebraska', 'NE'],
+      ['Nevada', 'NV'],
+      ['New Hampshire', 'NH'],
+      ['New Jersey', 'NJ'],
+      ['New Mexico', 'NM'],
+      ['New York', 'NY'],
+      ['North Carolina', 'NC'],
+      ['North Dakota', 'ND'],
+      ['Ohio', 'OH'],
+      ['Oklahoma', 'OK'],
+      ['Oregon', 'OR'],
+      ['Pennsylvania', 'PA'],
+      ['Rhode Island', 'RI'],
+      ['South Carolina', 'SC'],
+      ['South Dakota', 'SD'],
+      ['Tennessee', 'TN'],
+      ['Texas', 'TX'],
+      ['Utah', 'UT'],
+      ['Vermont', 'VT'],
+      ['Virginia', 'VA'],
+      ['Washington', 'WA'],
+      ['West Virginia', 'WV'],
+      ['Wisconsin', 'WI'],
+      ['Wyoming', 'WY']
+    ]
   end
 
 end

@@ -4,7 +4,8 @@ Psp::Application.routes.draw do
   #match "/states", to: 'states#index'
   resources :states
 
-  match "/states/:id/:year/:month/:day", to: "states#show"
+  match "/states/:id/feed", to: "states#feed"
+  match "/states/:id/:year/:month/:day", to: "states#show", as: "daily_calendar"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

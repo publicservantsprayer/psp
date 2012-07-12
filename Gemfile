@@ -3,8 +3,14 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.6'
 gem 'bootstrap-sass', "~> 2.0.0"
 
-gem "mongoid", "~> 2.4"
-gem "bson_ext", "~> 1.5"
+#gem "mongoid", "~> 2.4"
+#gem "bson_ext", "~> 1.5"
+
+# geoip also needs these packages from aptitude
+# geoip-bin
+# geoip-database
+# libgeoip-dev
+gem "geoip-c"
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

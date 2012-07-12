@@ -1,3 +1,4 @@
+<%= auto_discovery_link_tag(:rss, "/states/#{params[:id]}/feed.rss") %>
 <% content_for :page_title do %>
   <% if @date == Date.today %>
     <h1 class="state-header"><%= @state.name %> Legislators Being Prayed For Today</h1>

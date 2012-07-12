@@ -1,6 +1,26 @@
 require 'spec_helper'
 
 describe "Member" do
+  context "#name" do
+    it "returns nickname lastname" do
+      member = FactoryGirl.create(:member, first_name: "Dorothy", nick_name: "Sue", last_name: "Landske", prefix: "Sen.")
+      member.name.should == "Sue Landske"
+    end
+  end
+
+  context "#prefix_name" do
+    it "returns nickname lastname" do
+      member = FactoryGirl.create(:member, legislator_type: "SL",first_name: "Dorothy", nick_name: "Sue", last_name: "Landske", prefix: "Sen.")
+      member.prefix_name.should == "Sen. Sue Landske"
+    end
+
+    it "includes 'US' in front of prefix for federal legislators" do
+      member = FactoryGirl.create(:member, legislator_type: "FL", 
+                                  first_name: "Dorothy", nick_name: "Sue", last_name: "Landske", prefix: "Sen.")
+      member.prefix_name.should == "US Sen. Sue Landske"
+    end
+  end
+
   context "#photo_src" do
     it "returns path to photo" do
       member = Member.create(photo_path: 'Images\Photos\SL\IN\S', photo_file: 'Landske_Dorothy_194409.jpg')
@@ -10,47 +30,13 @@ describe "Member" do
 
   context "#information" do
     it "compiles information on existing data" do
-      member = Member.create(birth_place: "Timbuktu", name: "bob")
+      member = FactoryGirl.create(:member, birth_place: "Timbuktu")
       member.information.should include('Born in Timbuktu')
     end
-    it "skips missing data" do
-      member = Member.create(name: "bob")
-      member.information.should_not include('Born in')
-    end
-  end
 
-  context "#born" do
-    it "return location, month, day if it has all" do
-      member = Member.create(birth_place: "texas", birth_month: "09", birth_day: "15")
-      member.born.should include("Born in texas on September, 15th")
-    end
-    it "return only location if there is location, but no month" do
-      member = Member.create(birth_place: "texas", birth_day: "15")
-      member.born.should include("Born in texas")
-    end
-    it "return location, month if there is location, month but no day" do
-      member = Member.create(birth_place: "texas", birth_month: "09")
-      member.born.should include("Born in texas in the month of September")
-    end
-    it "returns month, day if there is month, day but no location" do
-      member = Member.create(birth_month: "09", birth_day: "15")
-      member.born.should include("Born on September, 15th")
-    end
-    it "returns month only if there is month but no day or location" do
-      member = Member.create(birth_month: "09")
-      member.born.should include("Born in September")
-    end
-    it "returns empty string if there is no month or location" do
-      member = Member.create(birth_day: "15")
-      member.born.should == ""
-    end
-    it "returns ordinalized day" do
-      member = Member.create(birth_month: "09", birth_day: "1")
-      member.born.should include("Born on September, 1st")
-      member = Member.create(birth_month: "09", birth_day: "2")
-      member.born.should include("Born on September, 2nd")
-      member = Member.create(birth_month: "09", birth_day: "3")
-      member.born.should include("Born on September, 3rd")
+    it "skips missing data" do
+      member = FactoryGirl.create(:member, birth_place: "")
+      member.information.should_not include('Born in')
     end
   end
 

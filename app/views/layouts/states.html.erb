@@ -1,0 +1,25 @@
+<% content_for :content do %>
+  <div class="row-fluid">
+    <div class="span3">
+      <div class="well">
+        <h3><%= @state.name %> Capitol</h3>
+        <%= image_tag "http://www.history.com/images/media/slideshow/indiana/indiana-state-captial-building.jpg" %>
+
+        <hr />
+        <h4>Fun Facts about <%= @state.name %></h4>
+        <ul>
+          <li><%= @state.name %> was the first state to adopt a monkey as mascot</li>
+          <li>In 1891, <%= @state.name %> made spitting on the sidewalk a crime</li>
+        </ul>
+
+        <hr />
+        <h4>State Director</h4>
+        <p>Matthew Barnes</p>
+      </div>
+    </div>
+    <div class="span9">
+      <%= yield %>
+    </div>
+  </div>
+<% end %>
+<%= render :template => 'layouts/application' %>
