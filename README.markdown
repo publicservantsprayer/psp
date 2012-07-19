@@ -14,9 +14,9 @@ Upgrade packages:
 
 Install public key, delete root password
 
-Install packages to enable PPA repositories
+Install packages to enable PPA repositories and other things
 
-    apt-get -y install curl git-core python-software-properties
+    apt-get -y install curl git-core python-software-properties htop unzip tofrodos
 
 Add Nginx repository
 
@@ -134,5 +134,19 @@ Back on new PublicServantsPrayer production server, edit config files as the dep
 Back on dev server
 
     cap deploy:cold
+
+Back on production server, remove default nginx and restart
+
+    rm /etc/nginx/sites-enabled/default
+    
+    service nginx restart
+
+Site should be available, but without Know Who data, log in to production as deployer.  Navigate to /apps/psp/current 
+
+    rake know_who:download_latest_data
+
+currently unzip doesn't work yet, manually unzip files in the know_who/raw directory
+
+    unzip [files].zip
 
 

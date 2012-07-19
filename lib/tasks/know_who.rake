@@ -4,6 +4,7 @@ namespace :know_who do
   task :download_latest_data do
     `mkdir -p know_who/raw`
     `cd know_who/raw && wget ftp://ftp_capitolcomm:ktr84sbe@205.134.170.180/* `
+    # TODO: get this command to work
     `cd know_who/raw && unzip *.zip`
   end
 
@@ -82,10 +83,10 @@ namespace :know_who do
   end
 
   task :setup_files => :environment do
-    `iconv -c -f ASCII -t UTF8 know_who/raw/State_Leg_L1_*_CSV/Biographies.csv > ~/code/psp/know_who/Biographies.utf8.csv`
-    `iconv -c -f ASCII -t UTF8 know_who/raw/State_Leg_L1_*_CSV/Members.csv > ~/code/psp/know_who/Members-State.utf8.csv`
-    `iconv -c -f ASCII -t UTF8 know_who/raw/State_Leg_L1_*_CSV/States.csv > ~/code/psp/know_who/States.utf8.csv`
-    `iconv -c -f ASCII -t UTF8 know_who/raw/Fed_Leg_L1_*_CSV/Members.csv > ~/code/psp/know_who/Members-Fed.utf8.csv`
+    `iconv -c -f ASCII -t UTF8 know_who/raw/State_Leg_L1_*_CSV/Biographies.csv > know_who/Biographies.utf8.csv`
+    `iconv -c -f ASCII -t UTF8 know_who/raw/State_Leg_L1_*_CSV/Members.csv > know_who/Members-State.utf8.csv`
+    `iconv -c -f ASCII -t UTF8 know_who/raw/State_Leg_L1_*_CSV/States.csv > know_who/States.utf8.csv`
+    `iconv -c -f ASCII -t UTF8 know_who/raw/Fed_Leg_L1_*_CSV/Members.csv > know_who/Members-Fed.utf8.csv`
     `fromdos know_who/*.csv`
   end
 end
