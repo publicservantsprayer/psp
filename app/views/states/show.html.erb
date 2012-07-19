@@ -1,21 +1,23 @@
 <%= auto_discovery_link_tag(:rss, "/states/#{params[:id]}/feed.rss") %>
-<% content_for :page_title do %>
-  <% if @date == Date.today %>
-    <h1 class="state-header"><%= @state.name %> Legislators Being Prayed For Today</h1>
-  <% elsif @date > Date.today %>
-    <h1 class="state-header">These <%= @state.name %> Legislators Will Be Prayed For On</h1>
-  <% else %>
-    <h1 class="state-header">These <%= @state.name %> Legislators Were Prayed For On</h1>
-  <% end %>
 
-  <h2 class="date"><%= @date.strftime("%A, %B %-d, %Y") %></h2>
+<% content_for :page_title do %>
+  <h1 class="page-header"><%= @state.name %></h1>
 <% end %>
 
 <div class="row-fluid">
+  <% if @date == Date.today %>
+    <h2 class="state-header">Legislators Being Prayed For Today</h2>
+  <% elsif @date > Date.today %>
+    <h2 class="state-header">These <%= @state.name %> Legislators Will Be Prayed For On</h2>
+  <% else %>
+    <h2 class="state-header">These <%= @state.name %> Legislators Were Prayed For On</h2>
+  <% end %>
+
+  <h3 class="date"><%= @date.strftime("%A, %B %-d, %Y") %></h3>
   <div class="">
-    <%= render :partial => 'member', locals: {member: @member0} %>
-    <%= render :partial => 'member', locals: {member: @member1} %>
-    <%= render :partial => 'member', locals: {member: @member2} %>
+    <%= render :partial => 'members/profile', formats: [:html], locals: {member: @member0} %>
+    <%= render :partial => 'members/profile', formats: [:html], locals: {member: @member1} %>
+    <%= render :partial => 'members/profile', formats: [:html], locals: {member: @member2} %>
   </div>
 </div>
 

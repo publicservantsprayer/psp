@@ -1,20 +1,58 @@
-<div class="row-fluid"> 
+<% content_for :page_title do %>
+  <h1 class="page-header">Find Your State</h1>
+<% end %>
 
-  <%= render :partial => 'map' %>
+<p class="lead">
+You are invited to join us as we pray for three elected officials daily.  Use the map or select a region to find your leaders.
+</p>
 
-  <div class="row-fluid">
-    <% current_page = 0 %>
-    <% state_count = 51 %>
-    <% while state_count > 0 %>
-      <div class="span2">
-        <ul class="">
-          <% State.all_minus_dc.offset(current_page * 10).limit(10).order('name').each do |state| %>
-            <li style="display:block" class="btn btn-small"><%= link_to state.name, state_path(state.code.downcase) %></li>
-          <% end %>
-        </ul>
-        <% state_count -= 10 %>
-        <% current_page += 1 %>
-      </div>
-    <% end %>
+<div class="hidden-phone">
+</div>
+
+<div class="tabbable tabs-left">
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#map" data-toggle="tab">Map</a></li>
+    <li><a href="#northeast" data-toggle="tab">Northeast</a></li>
+    <li><a href="#midwest" data-toggle="tab">Midwest</a></li>
+    <li><a href="#south" data-toggle="tab">South</a></li>
+    <li><a href="#west" data-toggle="tab">West</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div class="tab-pane active" id="map">
+      <%= render :partial => 'map' %>
+    </div>
+    <div class="tab-pane" id="northeast">
+      <h2>States in the Northeast</h2>
+      <ul class="nav nav-pills nav-stacked">
+        <% State.northeast.each do |state| %>
+          <li><%= link_to state.name, state_path(state) %></li>
+        <% end %>
+      </ul>
+    </div>
+    <div class="tab-pane" id="midwest">
+      <h2>States in the Midwest</h2>
+      <ul class="nav nav-pills nav-stacked">
+        <% State.midwest.each do |state| %>
+          <li><%= link_to state.name, state_path(state) %></li>
+        <% end %>
+      </ul>
+    </div>
+    <div class="tab-pane" id="south">
+      <h2>States in the South</h2>
+      <ul class="nav nav-pills nav-stacked">
+        <% State.south.each do |state| %>
+          <li><%= link_to state.name, state_path(state) %></li>
+        <% end %>
+      </ul>
+    </div>
+    <div class="tab-pane" id="west">
+      <h2>States in the West</h2>
+      <ul class="nav nav-pills nav-stacked">
+        <% State.west.each do |state| %>
+          <li><%= link_to state.name, state_path(state) %></li>
+        <% end %>
+      </ul>
+    </div>
   </div>
 </div>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120711214430) do
+ActiveRecord::Schema.define(:version => 20120717164116) do
 
   create_table "members", :force => true do |t|
     t.integer  "state_id"
@@ -73,11 +73,15 @@ ActiveRecord::Schema.define(:version => 20120711214430) do
     t.text     "biography"
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
+    t.string   "slug"
   end
+
+  add_index "members", ["slug"], :name => "index_members_on_slug", :unique => true
 
   create_table "states", :force => true do |t|
     t.string   "name"
     t.string   "code"
+    t.string   "region"
     t.boolean  "is_state",            :default => true
     t.integer  "pointer_zero",        :default => 0
     t.integer  "pointer_one",         :default => 0
@@ -85,6 +89,11 @@ ActiveRecord::Schema.define(:version => 20120711214430) do
     t.date     "last_incremented_on", :default => '2012-07-12', :null => false
     t.datetime "created_at",                                    :null => false
     t.datetime "updated_at",                                    :null => false
+    t.string   "slug"
+    t.integer  "daily_segment_id"
+    t.integer  "weekly_segment_id"
   end
+
+  add_index "states", ["slug"], :name => "index_states_on_slug", :unique => true
 
 end

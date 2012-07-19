@@ -12,6 +12,12 @@ gem 'bootstrap-sass', "~> 2.0.0"
 # libgeoip-dev
 gem "geoip-c"
 
+gem "friendly_id", "~> 4.0.1"
+
+gem "gibbon"
+gem "simple_form"
+gem 'wicked_pdf'
+
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 

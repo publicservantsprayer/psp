@@ -1,11 +1,21 @@
 class State < ActiveRecord::Base
   has_many :members 
+  extend FriendlyId
+  friendly_id :code, use: :slugged
 
-  scope :all_minus_dc, where(is_state: true)
+  scope :fifty, where(is_state: true).order(:name)
+  scope :northeast, where(region: "NE").order(:name)
+  scope :midwest, where(region: "MW").order(:name)
+  scope :south, where(region: "S").order(:name)
+  scope :west, where(region: "W").order(:name)
 
   before_create :set_last_incremented_on_to_today
   def set_last_incremented_on_to_today
     write_attribute :last_incremented_on, Date.today
+  end
+
+  def code_downcase
+    code.downcase
   end
 
   def self.find_by_ip(ip)
@@ -107,7 +117,7 @@ class State < ActiveRecord::Base
       break if count < 1
       pointer = pointer - count 
     end
-    self.members.state[pointer]
+    self.members.state.order(:district)[pointer]
   end
 
   def single_chamber_two(date)
@@ -118,7 +128,7 @@ class State < ActiveRecord::Base
       break if count < 1
       pointer = pointer - count 
     end
-    self.members.state[pointer]
+    self.members.state.order(:district)[pointer]
   end
 
   def us_member(date)
@@ -129,7 +139,7 @@ class State < ActiveRecord::Base
       break if count < 1
       pointer = pointer - count 
     end
-    self.members.us[pointer]
+    self.members.us.order(:district)[pointer]
   end
 
   def state_senate_member(date)
@@ -140,7 +150,7 @@ class State < ActiveRecord::Base
       break if count < 1
       pointer = pointer - count 
     end
-    self.members.state_senate[pointer]
+    self.members.state_senate.order(:district)[pointer]
   end
 
   def state_house_member(date)
@@ -151,7 +161,7 @@ class State < ActiveRecord::Base
       break if count < 1
       pointer = pointer - count 
     end
-    self.members.state_house[pointer]
+    self.members.state_house.order(:district)[pointer]
   end
 
   def self.us_codes

@@ -1,0 +1,38 @@
+<div style="padding:10px">
+  <%= image_tag "#{Rails.root}/public/#{member.photo_src}", style: "width:80px;float:left;padding-right:0" %>
+  <div style="float:right;width:90px;font-size:8px;text-align:left">
+    <h3 style="font-size:10px;margin:0"><%= member.name %></h3>
+    <p style="color:#700f16;margin-top:0"><%= member.title.strip %></p>
+
+    <dl>
+    <dt>District</dt>
+    <% unless member.residence.blank? %>
+    <dd><%= member.residence %></dd>
+    <% end %>
+    <dd>(<%= member.district %>)</dd>
+    </dl>
+
+    <% unless member.religion.blank? %>
+    <dl>
+    <dt>Religion</dt>
+    <dd><%= member.religion %></dd>
+    </dl>
+    <% end %>
+
+    <% unless member.spouse.blank? %>
+    <dl>
+    <dt>Spouse</dt>
+    <dd><%= member.spouse %></dd>
+    </dl>
+    <% end %>
+
+    <% unless member.family.blank? %>
+    <dl>
+    <dt>Family</dt>
+    <dd><%= member.family %></dd>
+    </dl>
+    <% end %>
+  </div>
+</div>
+<div style="clear:both"></div>
+<hr style="margin-top:1em" />

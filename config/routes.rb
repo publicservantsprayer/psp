@@ -2,10 +2,17 @@ Psp::Application.routes.draw do
   root to: 'states#index'
   #match "/states/:code" => "states#show"
   #match "/states", to: 'states#index'
-  resources :states
+  resources :states do
+    resources :members, path: "leaders", as: "leaders"
+    resources :calendars
+    resources :subscriptions
+  end
 
-  match "/states/:id/feed", to: "states#feed"
-  match "/states/:id/:year/:month/:day", to: "states#show", as: "daily_calendar"
+  match "/states/:state_id/calendars/daily/twitter", to: "states#daily_twitter_feed", as: "daily_twitter_feed"
+  match "/states/:state_id/calendars/daily/email", to: "states#daily_email_feed", as: "daily_email_feed"
+  match "/states/:state_id/calendars/weekly/email", to: "states#weekly_email_feed", as: "weekly_email_feed"
+  match "/states/:id/calendars/daily/:year/:month/:day", to: "states#show", as: "daily_calendar"
+  match "/states/:id/calendars/weekly/:year/:month/:day", to: "states#show", as: "weekly_calendar"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

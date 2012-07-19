@@ -19,10 +19,10 @@ describe "States page" do
     end
 
     it "shows a unique date, each day" do
-      date = find("h2.date").text
+      date = find(".date").text
       time_travel_to("tomorrow") do
         visit "/states/in"
-        date.should_not == find("h2.date").text
+        date.should_not == find(".date").text
       end
     end
 
@@ -55,10 +55,10 @@ describe "States page" do
     end
 
     it "shows a unique date, each day" do
-      date = find("h2.date").text
+      date = find(".date").text
       time_travel_to("tomorrow") do
         visit "/states/ne"
-        date.should_not == find("h2.date").text
+        date.should_not == find(".date").text
       end
     end
 
@@ -92,6 +92,23 @@ describe "States page" do
 
     it "includes image of member" do
       page.should have_selector('img.head-shot')
+    end
+
+    it "has navigation to all leaders for a state" do
+      click_on("Leaders")
+      current_path.should == "/states/in/leaders"
+    end
+
+    it "has navigation to daily calendar" do
+      pending
+      click_on("Daily Prayer Calendar")
+      current_path.should == "/states/in"
+    end
+
+    it "has navigation to weekly calendar" do
+      pending
+      click_on("Weekly Prayer Calendar")
+      current_path.should == "/states/in"
     end
 
   end

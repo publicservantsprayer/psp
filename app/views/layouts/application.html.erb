@@ -12,7 +12,6 @@
     <style type="text/css">
       body {
         padding-top: 60px;
-        padding-bottom: 40px;
       }
     </style>
     <%= stylesheet_link_tag  "application", :media => "all" %>
@@ -27,45 +26,100 @@
             <span class="icon-bar"></span>
           </a>
           <%= link_to "Public Servants' Prayer", root_path, class: "brand" %>
+
+
           <div class="nav-collapse">
             <ul class="nav pull-right">
               <li class="active"><%= link_to "Home",    root_path %></li>
-              <li><%= link_to "States",    states_path %></li>
-              <li><%= link_to "Sign in", '#' %></li>
+              <%= render partial: "layouts/region_dropdown", locals: { name: "Northeast", states: State.northeast } %>
+              <%= render partial: "layouts/region_dropdown", locals: { name: "Midwest", states: State.midwest } %>
+              <%= render partial: "layouts/region_dropdown", locals: { name: "South", states: State.south } %>
+              <%= render partial: "layouts/region_dropdown", locals: { name: "West", states: State.west } %>
             </ul>
           </div>
         </div>
       </div>
     </div>
-    <div class="container-fluid">
 
-      <div class="row-fluid">
+    <div class="container">
+      <% flash.each do |key, val| %>
+        <div class="alert alert-<%= key %> offset3 span5">
+          <button class="close" data-dismiss="alert">×</button>
+          <strong><%= key.to_s.humanize %>.</strong>
+          <%= val %>
+        </div>
+      <% end %>
+      <div class="row">
         <div class="span9">
           <%= yield :page_title %>
           <%= content_for?(:content) ? yield(:content) : yield %>
         </div>
 
         <div class="span3">
-          <%= image_tag "psp-logo-tagline.png" %>
-          <div class="well">
-            <h4>1st Timothy 2:1-4</h4>
-            <p>I <small>exhort therefore, that, first of all, supplications, prayers, intercessions, and giving of thanks, be made for all men;
+          <%= image_tag "psp-logo-small.png" %>
+          <hr />
+          <blockquote class="pull-right">
+            <p><span class="lead">I exhort therefore,</span><br />
+            that, first of all, supplications, prayers, intercessions, and giving of thanks, be made for all men;<br />
+            For kings, and for all that are in authority; that we may lead a quiet and peaceable life<br />
+            in all godliness and honesty.</p>
+            <small>1 Timothy 2:1-2</small>
+          </blockquote>
 
-            For kings, and for all that are in authority; that we may lead a quiet and peaceable life in all godliness and honesty.
-
-            For this is good and acceptable in the sight of God our Saviour;
-
-            Who will have all men to be saved, and to come unto the knowledge of the truth.</small>
-            </p>
-            <p><%= link_to "Scripture reference", "http://www.biblegateway.com/passage/?search=1+Timothy+2%3A1-4&version=KJV", style: "font-size: smaller; font-style: italic" %><p>
-          </div>
-          <div class="well">
-            <h4>Welcome to Public Servants' Prayer</h4>
-            <p>Dedicated to supporting elected leaders through prayer, encouragement, and the Word of God."</p>
-          </div>
-        </div>
+          <hr />
+          <hr />
+          <br />
+          <br />
         </div>
       </div>
     </div>
-  </body>
+  </div>
+
+
+  <footer class="container-fluid">
+  <p class="lead">
+  <%= link_to "Home", "#" %>
+  | <%= link_to "Find Your State", "/states" %>
+  | <%= link_to "How to Pray for Leaders", "#" %>
+  | <%= link_to "About", "#" %>
+  | <%= link_to "Help", "#" %>
+  | <%= link_to "Contact Us", "#" %>
+</p>
+<hr />
+<p>
+  <strong>Copyright &copy; 2012 Public Servants' Prayer. All rights reserved.</strong>
+  </p>
+  <div class="row">
+    <div class="offset2 span8 well">
+        <div class="row">
+          <div class="span4">
+            <p style="padding-top:0.5em">
+            Designed and built with <strong>love</strong> by
+            Public Servants' Prayer
+             and a partnership with 
+            <a href="http://www.capitolcom.org/" target="_blank">Capitol Commission</a>
+            </p>
+          </div>
+          <div class="span4">
+            <%= link_to image_tag("cc-logo-611x137.png", style: "width:100%"), "http://www.capitolcom.org/", target: "_blank" %>
+          </div>
+        </div>
+
+        <hr />
+
+        <div class="row">
+          <div class="span4">
+            <p style="padding-left:5em">
+            Powered by the exellent data services of <a href="https://www.knowwho.com/" target="_blank">KnowWho.com</a>
+            </p>
+          </div>
+          <div class="span4">
+            <%= link_to image_tag("/assets/know-who-logo.jpg", alt: "KnowWho", style: "width:50%"), "https://www.knowwho.com/",  target: "_blank" %>
+          </div>
+        </div>
+      </div>
+  </div>
+</footer>
+
+</body>
 </html>

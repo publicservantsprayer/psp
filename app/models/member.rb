@@ -1,14 +1,16 @@
 class Member < ActiveRecord::Base
   belongs_to :state
+  extend FriendlyId
+  friendly_id :prefix_name, use: :slugged
 
   attr_protected :person_id
 
-  scope :state,         where(legislator_type: "SL").order(:district)
-  scope :state_house,   where(legislator_type: "SL", chamber: "H").order(:district)
-  scope :state_senate,  where(legislator_type: "SL", chamber: "S").order(:district)
-  scope :us,            where(legislator_type: "FL").order(:district)
-  scope :us_house,      where(legislator_type: "FL", chamber: "H").order(:district)
-  scope :us_senate,     where(legislator_type: "FL", chamber: "S").order(:district)
+  scope :state,         where(legislator_type: "SL").order(:last_name)
+  scope :state_house,   where(legislator_type: "SL", chamber: "H").order(:last_name)
+  scope :state_senate,  where(legislator_type: "SL", chamber: "S").order(:last_name)
+  scope :us,            where(legislator_type: "FL").order(:last_name)
+  scope :us_house,      where(legislator_type: "FL", chamber: "H").order(:last_name)
+  scope :us_senate,     where(legislator_type: "FL", chamber: "S").order(:last_name)
 
   def name
     "#{nick_name} #{last_name}"
@@ -24,43 +26,19 @@ class Member < ActiveRecord::Base
 
   def photo_src
     path = photo_path.split("\\")
-    return "/assets/no_photo.gif" if path.blank? or photo_file.blank?
+    #return "/assets/no_photo.gif" if path.blank? or photo_file.blank?
+    return "http://placehold.it/109x148" if path.blank? or photo_file.blank?
     "/#{path[1].downcase}/#{path[2]}/#{path[3]}/#{path[4]}/#{photo_file}"
   end
 
-  def birth_month_name
-    month = read_attribute(:birth_month).to_i
-    Date::MONTHNAMES[month]
-  end
-
   def birthday
-    unless read_attribute(:birth_day).blank?
-      "#{birth_month_name}, #{read_attribute(:birth_day).to_i.ordinalize}"
+    if born_on
+      born_on.strftime("#B %e")
     end
   end
 
-  def born
-    unless read_attribute(:birth_place).blank?
-      unless birth_month_name.blank?
-        unless read_attribute(:birth_day).blank?
-          "Born in #{read_attribute(:birth_place)} on #{birth_month_name}, #{read_attribute(:birth_day).to_i.ordinalize}"
-        else
-          "Born in #{read_attribute(:birth_place)} in the month of #{birth_month_name}"
-        end
-      else
-        "Born in #{read_attribute(:birth_place)}"
-      end
-    else
-      unless birth_month_name.blank?
-        unless read_attribute(:birth_day).blank?
-          "Born on #{birth_month_name}, #{read_attribute(:birth_day).to_i.ordinalize}"
-        else
-          "Born in #{birth_month_name}"
-        end
-      else
-        ""
-      end
-    end
+  def district_residence
+    [district, residence].reject{|i|i.blank?}.join(" - ")
   end
 
   def school
@@ -113,6 +91,15 @@ class Member < ActiveRecord::Base
 
   def family_info
     "#{read_attribute(:spouse)}\n#{read_attribute(:family)}".strip
+  end
+
+  # TODO: Find a way to update data manually
+  def spouse
+    if read_attribute(:spouse).to_s.strip == "James (Jim) Hornak"
+      ""
+    else
+      read_attribute(:spouse).to_s.strip
+    end
   end
 
 

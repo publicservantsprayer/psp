@@ -10,18 +10,51 @@ class StatesController < ApplicationController
     else
       @date = Date.today
     end
-    @state = State.find_by_code(params[:id].upcase)
+    @state = State.find(params[:id])
     @member0 = @state.member_zero(@date)
     @member1 = @state.member_one(@date)
     @member2 = @state.member_two(@date)
+
+    respond_to do |format|
+      format.html
+      format.pdf do
+        @sunday = @date.next_week.next_day(6)
+        render pdf: "calendar.pdf",
+          orientation: "Landscape"
+      end
+    end
   end
 
-  def feed
+  def daily_twitter_feed
     @date = Date.today
-    @state = State.find_by_code(params[:id].upcase)
+    @state = State.find(params[:state_id])
     @member0 = @state.member_zero(@date)
     @member1 = @state.member_one(@date)
     @member2 = @state.member_two(@date)
+
+    respond_to do |format|
+      format.html
+      format.rss { render :layout => false } #index.rss.builder
+    end
+  end
+
+  def daily_email_feed
+    @date = Date.today
+    @state = State.find(params[:state_id])
+    @member0 = @state.member_zero(@date)
+    @member1 = @state.member_one(@date)
+    @member2 = @state.member_two(@date)
+
+    respond_to do |format|
+      format.html
+      format.rss { render :layout => false } #index.rss.builder
+    end
+  end
+
+  def weekly_email_feed
+    @date = Date.today
+    @sunday = @date.next_week.next_day(6)
+    @state = State.find(params[:state_id])
 
     respond_to do |format|
       format.html
