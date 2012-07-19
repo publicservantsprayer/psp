@@ -36,7 +36,7 @@ Add repository for latest version of PostgreSQL
 
 Update repo and install PostgreSQL
 
-    aptitude update && aptitude install postgresql libpq-dev
+    aptitude update && aptitude -y install postgresql libpq-dev
 
 Enter into postgres shell as the postgres user
 
