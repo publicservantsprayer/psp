@@ -25,3 +25,18 @@ Add Nginx repository
 Update the package manager with the new repository and install Nginx
 
     aptitude update  && aptitude -y install nginx
+
+Start Nginx
+
+    service nginx start
+
+Add repository for latest version of PostgreSQL
+
+    add-apt-repository ppa:pitti/postgresql
+
+Update repo and install PostgreSQL
+
+    aptitude update && aptitude install postgresql libpq-dev
+
+
+
