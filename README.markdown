@@ -115,4 +115,12 @@ Attempt to connect to github and say 'yes' when asked to continue.  This adds gi
 
     ssh git@github.com
 
+Create ssh key pair (no passphrase, just hit enter)
+
+    ssh-keygen
+
+View and copy paste public key into github admin interface for this repository
+
+    cat ~/.ssh/id_rsa.pub
+
 
