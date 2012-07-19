@@ -10,7 +10,7 @@ gem 'bootstrap-sass', "~> 2.0.0"
 # geoip-bin
 # geoip-database
 # libgeoip-dev
-gem "geoip-c"
+#gem "geoip-c"
 
 gem "friendly_id", "~> 4.0.1"
 

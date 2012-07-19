@@ -69,7 +69,6 @@ GEM
       railties (>= 3.0.0)
     ffi (1.0.11)
     friendly_id (4.0.7)
-    geoip-c (0.8.1)
     gibbon (0.3.5)
       httparty (> 0.6.0)
       httparty (> 0.6.0)
@@ -211,7 +210,6 @@ DEPENDENCIES
   delorean
   factory_girl_rails (~> 3.0)
   friendly_id (~> 4.0.1)
-  geoip-c
   gibbon
   guard-rspec
   guard-spork

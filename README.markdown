@@ -123,4 +123,12 @@ View and copy paste public key into github admin interface for this repository
 
     cat ~/.ssh/id_rsa.pub
 
+Cross fingers and run capistrano from development server
+
+    cap deploy:setup
+
+Back on new PublicServantsPrayer production server, edit config files as the deployer user
+
+    vim apps/psp/shared/config/database.yml
+
 
