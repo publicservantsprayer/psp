@@ -131,4 +131,8 @@ Back on new PublicServantsPrayer production server, edit config files as the dep
 
     vim apps/psp/shared/config/database.yml
 
+Back on dev server
+
+    cap deploy:cold
+
 
