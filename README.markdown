@@ -102,3 +102,17 @@ Install Ruby
     rbenv install 1.9.3-p194
 
 Get a cup of tea...
+
+Make this the global version of Ruby
+
+    rbenv global 1.9.3-p194
+
+Install Bundler and Rake
+
+    rbenv bootstrap
+
+Attempt to connect to github and say 'yes' when asked to continue.  This adds githubs host key.  Expect permission denied error.
+
+    ssh git@github.com
+
+
