@@ -82,10 +82,10 @@ namespace :know_who do
   end
 
   task :setup_files => :environment do
-    `iconv -c -f ASCII -t UTF8 know_who/raw/State_Leg_L1_*_CSV/Biographies.csv > know_who/Biographies.utf8.csv`
-    `iconv -c -f ASCII -t UTF8 know_who/raw/State_Leg_L1_*_CSV/Members.csv > know_who/Members-State.utf8.csv`
-    `iconv -c -f ASCII -t UTF8 know_who/raw/State_Leg_L1_*_CSV/States.csv > know_who/States.utf8.csv`
-    `iconv -c -f ASCII -t UTF8 know_who/raw/Fed_Leg_L1_*_CSV/Members.csv > know_who/Members-Fed.utf8.csv`
+    `iconv -c -f ASCII -t UTF8 know_who/raw/State_Leg_L1_*/Biographies.csv > know_who/Biographies.utf8.csv`
+    `iconv -c -f ASCII -t UTF8 know_who/raw/State_Leg_L1_*/Members.csv > know_who/Members-State.utf8.csv`
+    `iconv -c -f ASCII -t UTF8 know_who/raw/State_Leg_L1_*/States.csv > know_who/States.utf8.csv`
+    `iconv -c -f ASCII -t UTF8 know_who/raw/Fed_Leg_L1_*/Members.csv > know_who/Members-Fed.utf8.csv`
     `fromdos know_who/*.csv`
   end
 end
