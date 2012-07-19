@@ -4,8 +4,7 @@ namespace :know_who do
   task :download_latest_data do
     `mkdir -p know_who/raw`
     `cd know_who/raw && wget ftp://ftp_capitolcomm:ktr84sbe@205.134.170.180/* `
-    # TODO: get this command to work
-    `cd know_who/raw && unzip *.zip`
+    `cd know_who/raw && unzip \*.zip`
   end
 
   task :import => :environment do
