@@ -16,7 +16,7 @@ Install public key, delete root password
 
 Install packages to enable PPA repositories and other things
 
-    apt-get -y install curl git-core python-software-properties htop unzip tofrodos
+    apt-get -y install curl git-core python-software-properties htop unzip tofrodos bzip2
 
 Add Nginx repository
 
@@ -99,13 +99,13 @@ Set up rbenv with this command
 
 Install Ruby
 
-    rbenv install 1.9.3-p194
+    rbenv install 1.9.3-p125
 
 Get a cup of tea...
 
 Make this the global version of Ruby
 
-    rbenv global 1.9.3-p194
+    rbenv global 1.9.3-p125
 
 Install Bundler and Rake
 
@@ -147,6 +147,18 @@ Site should be available, but without Know Who data, log in to production as dep
 
 currently unzip doesn't work yet, manually unzip files in the know_who/raw directory
 
-    unzip [files].zip
+    cd know_who/raw && unzip \*.zip
 
+import data 
 
+    rake know_who:import
+
+Install wkhtmltopdf
+
+    wget http://wkhtmltopdf.googlecode.com/files/wkhtmltopdf-0.11.0_rc1-static-amd64.tar.bz2
+    bunzip2 wkhtmltopdf-0.11.0_rc1-static-amd64.tar.bz2
+    tar -xf wkhtmltopdf-0.11.0_rc1-static-amd64.tar
+    cp wkhtmltopdf-amd64 /usr/local/bin/wkhtmltopdf
+    aptitude install -y libxrender1 libfontconfig
+
+Rejoice
