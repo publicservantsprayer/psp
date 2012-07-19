@@ -2,9 +2,9 @@
 
 ## Installation Instructions:
 
-  echo "publicservantsprayer.org" > /etc/hostsname
+    echo "publicservantsprayer.org" > /etc/hostsname
 
-  aptitude update && aptitude upgrade
+    aptitude update && aptitude upgrade
 
 (keep locally modified grub if asked)
 
