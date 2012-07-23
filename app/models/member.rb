@@ -25,9 +25,9 @@ class Member < ActiveRecord::Base
   end
 
   def photo_src
+    return "http://placehold.it/109x148" if photo_path.blank? or photo_file.blank?
     path = photo_path.split("\\")
     #return "/assets/no_photo.gif" if path.blank? or photo_file.blank?
-    return "http://placehold.it/109x148" if path.blank? or photo_file.blank?
     "/#{path[1].downcase}/#{path[2]}/#{path[3]}/#{path[4]}/#{photo_file}"
   end
 

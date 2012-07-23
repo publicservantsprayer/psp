@@ -10,6 +10,10 @@
 /public/photos
 /public/assets
 
+/config/database.yml
+
+*.swp
+
 # Ignore bundler config
 /.bundle
 

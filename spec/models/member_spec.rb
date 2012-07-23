@@ -26,6 +26,11 @@ describe "Member" do
       member = Member.create(photo_path: 'Images\Photos\SL\IN\S', photo_file: 'Landske_Dorothy_194409.jpg')
       member.photo_src.should eq('/photos/SL/IN/S/Landske_Dorothy_194409.jpg')
     end
+    
+    it "returns path to blank photo if path is nil" do
+      member = Member.create(photo_path: nil, photo_file: 'Landske_Dorothy_194409.jpg')
+      member.photo_src.should eq('http://placehold.it/109x148')
+    end
   end
 
   context "#information" do
