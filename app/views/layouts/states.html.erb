@@ -37,7 +37,11 @@
         <li><%= link_to "Subscribe Daily", state_calendar_path(@state, 'daily') %></li>
         <li><%= link_to "Subscribe Weekly", state_calendar_path(@state, 'weekly') %></li>
         <li><%= link_to "Prayer Guide", "#" %></li>
+        <% if usaprays? %>
         <li><%= link_to "Twitter: @#{@state.code}_Prays", "https://twitter.com/#{@state.code}_Prays" %></li>
+      <% else %>
+        <li><%= link_to "Twitter: @Praying4_#{@state.code}", "https://twitter.com/Praying4_#{@state.code}" %></li>
+      <% end %>
       </ul>
 
 

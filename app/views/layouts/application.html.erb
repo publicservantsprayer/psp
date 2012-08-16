@@ -2,7 +2,11 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Public Servants' Prayer</title>
+    <% if usaprays? %>
+      <title>USA Prays</title>
+    <% else %>
+      <title>Public Servants' Prayer</title>
+    <% end %>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
@@ -16,6 +20,7 @@
     </style>
     <%= stylesheet_link_tag  "application", :media => "all" %>
   </head>
+
   <body>
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
@@ -25,8 +30,12 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <%= link_to "Public Servants' Prayer", root_path, class: "brand" %>
 
+          <% if usaprays? %>
+            <%= link_to "USA Prays", root_path, class: "brand" %>
+          <% else %>
+            <%= link_to "Public Servants' Prayer", root_path, class: "brand" %>
+          <% end %>
 
           <div class="nav-collapse">
             <ul class="nav pull-right">
@@ -56,16 +65,12 @@
         </div>
 
         <div class="span3" style="padding:0.25">
-          <%= image_tag "psp-logo-small.png" %>
-          <hr />
           <p style="text-align:center">
-          <small>
-            Designed and built by<br />
-          Public Servants' Prayer
-          and a partnership 
-          with&nbsp;<a href="http://www.capitolcom.org/" target="_blank">Capitol&nbsp;Commission</a>
-        </small>
-          <%= link_to image_tag("cc-logo-611x137.png"), "http://www.capitolcom.org/", target: "_blank" %>
+          <% if usaprays? %>
+            <%= link_to image_tag("cc-logo-611x137.png"), "http://www.capitolcom.org/", target: "_blank" %>
+          <% else %>
+            <%= image_tag "psp-logo-small.png" %>
+          <% end %>
           </p>
           <hr />
           <blockquote class="pull-right">
@@ -89,35 +94,39 @@
 
   <footer class="container-fluid">
   <p class="lead">
-  <%= link_to "Home", "#" %>
-  | <%= link_to "Find Your State", "/states" %>
-  | <%= link_to "How to Pray for Leaders", "#" %>
-  | <%= link_to "About", "#" %>
-  | <%= link_to "Help", "#" %>
-  | <%= link_to "Contact Us", "#" %>
-</p>
-<hr />
-<p>
-  <strong>Copyright &copy; 2012 Public Servants' Prayer. All rights reserved.</strong>
+    <%= link_to "Home", "#" %>
+    | <%= link_to "Find Your State", "/states" %>
+    | <%= link_to "How to Pray for Leaders", "#" %>
+    | <%= link_to "About", "#" %>
+    | <%= link_to "Help", "#" %>
+    | <%= link_to "Contact Us", "#" %>
   </p>
-  <div class="row">
-    <div class="offset2 span8 well">
+  <hr />
+  <p>
+<% if usaprays? %>
+  <strong>Copyright &copy; 2012 Capitol Commission. All rights reserved.</strong>
+<% else %>
+  <strong>Copyright &copy; 2012 Public Servants' Prayer. All rights reserved.</strong>
+<% end %>
+</p>
+<div class="row">
+  <div class="offset2 span8 well">
 
-        <hr />
+    <hr />
 
-        <div class="row">
-          <div class="span4">
-            <p style="padding-left:5em">
-            Powered by the exellent data services of <a href="https://www.knowwho.com/" target="_blank">KnowWho.com</a>
-            </p>
-          </div>
-          <div class="span4">
-            <%= link_to image_tag("/assets/know-who-logo.jpg", alt: "KnowWho", style: "width:50%"), "https://www.knowwho.com/",  target: "_blank" %>
-          </div>
-        </div>
+    <div class="row">
+      <div class="span4">
+        <p style="padding-left:5em">
+        Powered by the exellent data services of <a href="https://www.knowwho.com/" target="_blank">KnowWho.com</a>
+        </p>
       </div>
+      <div class="span4">
+        <%= link_to image_tag("/assets/know-who-logo.jpg", alt: "KnowWho", style: "width:50%"), "https://www.knowwho.com/",  target: "_blank" %>
+      </div>
+    </div>
   </div>
+</div>
 </footer>
 
-</body>
+  </body>
 </html>
