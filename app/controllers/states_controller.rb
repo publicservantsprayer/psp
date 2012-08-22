@@ -33,7 +33,6 @@ class StatesController < ApplicationController
     @member2 = @state.member_two(@date)
 
     respond_to do |format|
-      format.html
       format.rss { render :layout => false } #index.rss.builder
     end
   end
@@ -46,7 +45,6 @@ class StatesController < ApplicationController
     @member2 = @state.member_two(@date)
 
     respond_to do |format|
-      format.html
       format.rss { render :layout => false } #index.rss.builder
     end
   end

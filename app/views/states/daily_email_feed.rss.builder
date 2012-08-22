@@ -8,7 +8,7 @@ xml.rss :version => "2.0" do
       xml.link daily_calendar_url(params[:state_id], @date.year, @date.month, @date.day)
       xml.guid daily_calendar_url(params[:state_id], @date.year, @date.month, @date.day)
       xml.title "Please pray today for: #{@member0.prefix_name}, #{@member1.prefix_name}, #{@member2.prefix_name}"
-      xml.content type: "html" do
+      xml.description do
         xml.cdata!(render(partial: "members/profile.html.erb", locals: { member: @member0 }))
         xml.cdata!(render(partial: "members/profile.html.erb", locals: { member: @member1 }))
         xml.cdata!(render(partial: "members/profile.html.erb", locals: { member: @member2 }))
