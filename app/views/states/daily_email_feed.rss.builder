@@ -10,7 +10,6 @@ xml.rss :version => "2.0" do
       xml.title "Please pray today for: #{@member0.prefix_name}, #{@member1.prefix_name}, #{@member2.prefix_name}"
       xml.description do
 
-        xml.cdata!(image_tag("psp-logo-small.png"))
         xml.cdata!("<h1>Legislators Being Prayed For Today</h1>")
         xml.cdata!("<h2>#{@date.strftime("%A, %B %-d, %Y")}</h2>")
         xml.cdata!(render(partial: "members/profile_email_rss.html.erb", locals: { member: @member0 }))
