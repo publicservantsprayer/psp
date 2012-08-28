@@ -58,7 +58,7 @@ class Subscription
     end
     result = add_to_segment
     unless result['success'] == 1
-      logger.fatal result
+      Rails.logger.fatal result
       if result['errors']
         result['errors'].each do e
           mail_chimp_errors << e
