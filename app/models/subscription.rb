@@ -58,8 +58,10 @@ class Subscription
     end
     result = add_to_segment
     unless result['success'] == 1
-      result["errors"].each do e
-        mail_chimp_errors << e
+      if result['errors']
+        result['errors'].each do e
+          mail_chimp_errors << e
+        end
       end
       return false
     end
