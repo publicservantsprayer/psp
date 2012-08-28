@@ -9,10 +9,11 @@ class SubscriptionsController < ApplicationController
         flash[:success] = "You have successfully subscribed to the #{@subscription.calendar_name}"
       else
         flash[:warning] = "Your subscription could not be created."
-        unless Rails.env == "production"
-          @subscription.mail_chimp_errors.each do |val|
-            flash[:error] = val
+        @subscription.mail_chimp_errors.each do |error|
+          unless Rails.env == "production"
+            flash[:error] += error
           end
+          logger.fatal error 
         end
       end
       redirect_to state_calendar_path(@state.to_param, @subscription.calendar_id)
