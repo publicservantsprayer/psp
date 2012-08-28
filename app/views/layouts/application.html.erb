@@ -39,11 +39,13 @@
 
           <div class="nav-collapse">
             <ul class="nav pull-right">
-              <li class="active"><%= link_to "Home",    root_path %></li>
-              <%= render partial: "layouts/region_dropdown", locals: { name: "Northeast", states: State.northeast } %>
-              <%= render partial: "layouts/region_dropdown", locals: { name: "Midwest", states: State.midwest } %>
-              <%= render partial: "layouts/region_dropdown", locals: { name: "South", states: State.south } %>
-              <%= render partial: "layouts/region_dropdown", locals: { name: "West", states: State.west } %>
+              <li class="active"><%= link_to "Find Your State", states_path %></li>
+              <% if false %>
+                <%= render partial: "layouts/region_dropdown", locals: { name: "Northeast", states: State.northeast } %>
+                <%= render partial: "layouts/region_dropdown", locals: { name: "Midwest", states: State.midwest } %>
+                <%= render partial: "layouts/region_dropdown", locals: { name: "South", states: State.south } %>
+                <%= render partial: "layouts/region_dropdown", locals: { name: "West", states: State.west } %>
+              <% end %>
             </ul>
           </div>
         </div>
@@ -94,12 +96,7 @@
 
   <footer class="container-fluid">
   <p class="lead">
-    <%= link_to "Home", "#" %>
-    | <%= link_to "Find Your State", "/states" %>
-    | <%= link_to "How to Pray for Leaders", "#" %>
-    | <%= link_to "About", "#" %>
-    | <%= link_to "Help", "#" %>
-    | <%= link_to "Contact Us", "#" %>
+    <%= link_to "Find Your State", "/states" %>
   </p>
   <hr />
   <p>
