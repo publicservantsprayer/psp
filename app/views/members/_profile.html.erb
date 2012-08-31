@@ -30,7 +30,7 @@
               <%= content_tag('li', link_to("Contact Form", member[:webform])) unless member[:webform].blank? %>
               <%= content_tag('li', link_to("Facebook", member.facebook)) unless member.facebook.blank? %>
               <%= content_tag('li', link_to("Email", "mailto: #{member.email}")) unless member.email.blank? %>
-              <%= content_tag('li', link_to("Twitter", "https://twitter.com/#{member.twitter}")) unless member[:twitter].blank? %>
+              <%= content_tag('li', link_to("Twitter", member.twitter)) unless member[:twitter].blank? %>
             </ul>
           </div>
         </div>
