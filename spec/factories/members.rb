@@ -17,24 +17,28 @@ FactoryGirl.define do
       legislator_type "SL"
       chamber "S"
       title "Senator"
+      prefix "Sen."
     end
 
     factory :representative do
       legislator_type "SL"
       chamber "H"
       title "Representative"
+      prefix "Rep."
     end
     
     factory :us_senator do
       legislator_type "FL"
       chamber "S"
       title "US Senator"
+      prefix "Sen."
     end
 
     factory :us_representative do
       legislator_type "FL"
       chamber "H"
       title "US Representative"
+      prefix "Rep."
     end
   end
 end
