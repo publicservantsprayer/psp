@@ -3,8 +3,7 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.6'
 gem 'bootstrap-sass', "~> 2.0.0"
 
-#gem "mongoid", "~> 2.4"
-#gem "bson_ext", "~> 1.5"
+gem 'pg'
 
 # geoip also needs these packages from aptitude
 # geoip-bin
@@ -38,7 +37,6 @@ end
 gem 'jquery-rails'
 
 group :test, :development do
-  gem 'sqlite3'
   gem 'rspec-rails', '2.8.1'
   gem 'capybara', '1.1.2'
   gem 'guard-rspec'
@@ -48,9 +46,6 @@ group :test, :development do
   gem 'delorean'
 end
 
-group :production do
-  gem 'pg'
-end
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
