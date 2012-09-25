@@ -86,7 +86,7 @@ ActiveRecord::Schema.define(:version => 20120717164116) do
     t.integer  "pointer_zero",        :default => 0
     t.integer  "pointer_one",         :default => 0
     t.integer  "pointer_two",         :default => 1
-    t.date     "last_incremented_on", :default => '2012-07-12', :null => false
+    t.date     "last_incremented_on", :default => '2012-09-24', :null => false
     t.datetime "created_at",                                    :null => false
     t.datetime "updated_at",                                    :null => false
     t.string   "slug"
