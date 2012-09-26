@@ -4,7 +4,7 @@ namespace :know_who do
   task :download_latest_data do
     `mkdir -p know_who/raw`
     `cd know_who/raw && wget ftp://ftp_capitolcomm:ktr84sbe@205.134.170.180/* `
-    `cd know_who/raw && unzip \*.zip`
+    #`cd know_who/raw && unzip \*.zip`
   end
 
   task :import => :environment do
@@ -14,21 +14,21 @@ namespace :know_who do
     #Rake::Task["know_who:import_bio_records"].execute
   end
 
-  task :delete_state_records => :environment do
+  task :delete_states => :environment do
     puts "removing old state data"
     count = State.delete_all
     puts "removed #{count} state records"
   end
 
-  task :delete_member_records => :environment do
+  task :delete_members => :environment do
     puts "removing old member data"
     count = Member.delete_all
     puts "removed #{count} member records"
   end
 
-  task :import_state_records => :environment do
+  task :import_states => :environment do
     puts "importing new state records"
-    states = CSV.table("know_who/States.utf8.csv")
+    states = CSV.table("know_who/states.csv")
     states.each do |state|
       s = State.new
       s.code = state[:statepostcode]
@@ -53,17 +53,29 @@ namespace :know_who do
     end
   end
 
-  task :import_member_records => :environment do
-    puts "importing new member records"
-    ["know_who/Members-State.utf8.csv", "know_who/Members-Fed.utf8.csv"].each do |member_file|
-      CSV.foreach(member_file, headers: true, header_converters: :symbol) do |know_who_member|
-        member = MemberImporter.create_or_update(know_who_member)
-        puts "Imported #{member.prefix_name}"
-      end
+  task :import_members => :environment do
+    Rake::Task["know_who:import_federal_members"].execute
+    Rake::Task["know_who:import_state_members"].execute
+  end
+
+  task :import_federal_members => :environment do
+    puts "importing federal member records"
+    CSV.foreach("know_who/federal_members.csv", headers: true, header_converters: :symbol) do |know_who_member|
+      member = MemberImporter.create_or_update(know_who_member)
+      puts "Imported #{member.prefix_name}"
     end
   end
 
-  task :import_bio_records => :environment do
+  task :import_state_members => :environment do
+    puts "importing state member records"
+    CSV.foreach("know_who/state_members.csv", headers: true, header_converters: :symbol) do |know_who_member|
+      member = MemberImporter.create_or_update(know_who_member)
+      puts "Imported #{member.prefix_name}"
+    end
+  end
+
+
+  task :import_bios => :environment do
     begin
       CSV.foreach("know_who/Biographies.utf8.csv", headers: true, header_converters: :symbol) do |bio|
         #member = Member.first(conditions: { person_id: bio[:pid] })
@@ -82,10 +94,38 @@ namespace :know_who do
   end
 
   task :setup_files => :environment do
-    `iconv -c -f ASCII -t UTF8 know_who/raw/State_Leg_L1_*/Biographies.csv > know_who/Biographies.utf8.csv`
-    `iconv -c -f ASCII -t UTF8 know_who/raw/State_Leg_L1_*/Members.csv > know_who/Members-State.utf8.csv`
-    `iconv -c -f ASCII -t UTF8 know_who/raw/State_Leg_L1_*/States.csv > know_who/States.utf8.csv`
-    `iconv -c -f ASCII -t UTF8 know_who/raw/Fed_Leg_L1_*/Members.csv > know_who/Members-Fed.utf8.csv`
-    `fromdos know_who/*.csv`
+    Rake::Task["know_who:delete_files"].execute
+    Rake::Task["know_who:copy_files"].execute
+    Rake::Task["know_who:iconv_files"].execute
+    #Rake::Task["know_who:dos2unix_files"].execute
   end
+
+  task :delete_files => :environment do
+    puts "deleting files"
+    `rm know_who/states.csv`
+    `rm know_who/state_members.csv`
+    `rm know_who/federal_members.csv`
+  end
+
+  task :copy_files => :environment do
+    puts "copying files"
+    `cp know_who/raw/State/States.csv know_who/states.csv`
+    `cp know_who/raw/State/Members.csv know_who/state_members.csv`
+    `cp know_who/raw/Federal/Members.csv know_who/federal_members.csv`
+  end
+
+  task :iconv_files => :environment do
+    puts "converting to UTF8"
+    ['states.csv', 'state_members.csv', 'federal_members.csv'].each do |file|
+      `mv know_who/#{file} know_who/_#{file}`
+      `iconv --verbose -c --to-code UTF8//TRANSLIT --output know_who/#{file} know_who/_#{file}`
+      `rm know_who/_#{file}`
+    end
+  end
+
+  task :dos2unix_files => :environment do
+    puts "converting from dos to unix"
+    `dos2unix know_who/*.csv`
+  end
+
 end
