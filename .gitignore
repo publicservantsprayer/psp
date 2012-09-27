@@ -24,3 +24,13 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+
+/.vagrant
+
+/cookbooks
+/site-cookbooks
+/soloistrc
+/Vagrantfile
+/Cheffile
+/Cheffile.lock
+/bootstrap-chef-solo
