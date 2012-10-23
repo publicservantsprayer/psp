@@ -4,6 +4,8 @@ gem 'rails', '3.2.6'
 gem 'bootstrap-sass', "~> 2.0.0"
 
 gem 'pg'
+gem 'httparty'
+gem 'hashie'
 
 # geoip also needs these packages from aptitude
 # geoip-bin
@@ -15,7 +17,7 @@ gem "friendly_id", "~> 4.0.1"
 
 gem "gibbon"
 gem "simple_form"
-gem 'wicked_pdf'
+#gem 'wicked_pdf'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -41,9 +43,10 @@ group :test, :development do
   gem 'capybara', '1.1.2'
   gem 'guard-rspec'
   gem 'guard-spork'
-  gem 'database_cleaner', "~> 0.7.2"
   gem 'factory_girl_rails', "~> 3.0"
   gem 'delorean'
+  gem 'vcr'
+  gem 'fakeweb'
 end
 
 

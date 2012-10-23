@@ -1,18 +1,13 @@
 Psp::Application.routes.draw do
+
   root to: 'states#index'
   #match "/states/:code" => "states#show"
   #match "/states", to: 'states#index'
 
-  namespace :api, defaults: {format: 'json'} do
-    namespace :v1 do
-      resources :states do
-        resources :leaders
-      end
-    end
-  end
+  resources :leaders
 
   resources :states do
-    resources :members, path: "leaders", as: "leaders"
+    resources :leaders
     resources :calendars
     resources :subscriptions
   end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120925171911) do
+ActiveRecord::Schema.define(:version => 20121010204400) do
 
   create_table "cms_attachment_versions", :force => true do |t|
     t.integer  "original_record_id"
@@ -565,6 +565,14 @@ ActiveRecord::Schema.define(:version => 20120925171911) do
 
   add_index "members", ["slug"], :name => "index_members_on_slug", :unique => true
 
+  create_table "rotations", :force => true do |t|
+    t.string   "name"
+    t.integer  "pointer"
+    t.date     "last_rotated_on"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
   create_table "states", :force => true do |t|
     t.string   "name"
     t.string   "code"
@@ -573,7 +581,7 @@ ActiveRecord::Schema.define(:version => 20120925171911) do
     t.integer  "pointer_zero",        :default => 0
     t.integer  "pointer_one",         :default => 0
     t.integer  "pointer_two",         :default => 1
-    t.date     "last_incremented_on", :default => '2012-09-24', :null => false
+    t.date     "last_incremented_on", :default => '2012-10-12', :null => false
     t.datetime "created_at",                                    :null => false
     t.datetime "updated_at",                                    :null => false
     t.string   "slug"
