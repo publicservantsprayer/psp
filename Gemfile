@@ -65,4 +65,6 @@ gem 'capistrano'
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
 
-gem "browsercms", "3.5.4"
+# Content Managment
+gem 'refinerycms'
+
