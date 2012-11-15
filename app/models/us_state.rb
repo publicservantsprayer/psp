@@ -14,7 +14,7 @@ class UsState < Struct.new(:code)
   end
 
   def self.south
-    regions %w[al ar dc de fl ga ky la md ms nc ok sc tn tx va wv]
+    regions %w[al ar de fl ga ky la md ms nc ok sc tn tx va wv]
   end
 
   def self.west
@@ -51,6 +51,22 @@ class UsState < Struct.new(:code)
 
   def to_param
     code
+  end
+
+  def mashed_name
+    name.split.join.downcase
+  end
+
+  def facebook_url
+    if to_param == 'al'
+      "https://facebook.com/AlabamaPSP"
+    else
+      "https://facebook.com/psp.#{mashed_name}"
+    end
+  end
+
+  def twitter_handle
+    "@Praying4_#{to_param.upcase}"
   end
 
 end

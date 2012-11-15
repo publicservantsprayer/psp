@@ -35,15 +35,24 @@ class LeaderFinder
     us_senate(state_code) + us_house(state_code)
   end
 
-  def self.get_leaders(endpoint)
-    results = get(endpoint)
-    leaders = []
-    results.each do |data|
-      leader = Leader.new
-      leader.setup(data)
-      leaders << Leader.new(leader)
+  private
+
+    def self.get_leaders(endpoint)
+      results = cached_get(endpoint)
+      leaders = []
+      results.each do |data|
+        leader = Leader.new
+        leader.setup(data)
+        leaders << Leader.new(leader)
+      end
+      leaders
     end
-    leaders
-  end
+
+    def self.cached_get(endpoint)
+      #Rails.cache.delete(endpoint)
+      Rails.cache.fetch(endpoint) do
+        get(endpoint).parsed_response
+      end
+    end
 
 end

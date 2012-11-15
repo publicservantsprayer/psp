@@ -1,45 +1,44 @@
     <ul class="nav nav-list">
-      <% if params[:controller] == "states" %>
-        <li class="active">
-        <%= link_to state_path(@state) do %>
-          <i class="icon-white icon-home"></i>
-          State Home
-        <% end %>
-        </li>
-      <% else %>
-        <li>
-        <%= link_to state_path(@state) do %>
-          <i class="icon-home"></i>
-          State Home
-        <% end %>
-        </li>
+
+      <% active = params[:controller] == "states" %>
+      <%= state_nav_li("State Home", state_path(@state), 'home', active) %>
+
+      <% active = params[:controller] == "leaders" %>
+      <%= state_nav_li("State Leaders", state_leaders_path(@state), 'user', active) %>
+
+      <% if false %>
+      <% active = params[:controller] == "calendars" %>
+      <%= state_nav_li("Prayer Calendar", state_calendars_path(@state), 'calendar', active) %>
       <% end %>
 
-      <% if params[:controller] == "members" %>
-        <li class="active">
-        <%= link_to state_leaders_path(@state) do %>
-          <i class="icon-white icon-user"></i>
-          State Leaders
-        <% end %>
-        </li>
-      <% else %>
-        <li>
-        <%= link_to state_leaders_path(@state) do %>
-          <i class="icon-user"></i>
-          State Leaders
-        <% end %>
-        </li>
-      <% end %>
-      <li class="nav-header">Prayer Calendar</li>
-      <li><%= link_to "Subscribe Daily", state_calendar_path(@state, 'daily') %></li>
-      <li><%= link_to "Subscribe Weekly", state_calendar_path(@state, 'weekly') %></li>
-      <% if usaprays? %>
-        <li><%= link_to "Twitter: @#{@state.code}_Prays", "https://twitter.com/#{@state.code}_Prays" %></li>
-      <% else %>
-        <li><%= link_to "Twitter: @Praying4_#{@state.code}", "https://twitter.com/Praying4_#{@state.code}" %></li>
-      <% end %>
+      <li class="nav-header">Prayer List</li>
+
+      <% active = params[:id] == "daily" %>
+      <%= state_nav_li("Subscribe Daily", state_subscription_path(@state, 'daily'), 'th', active) %>
+
+      <% active = params[:id] == "weekly" %>
+      <%= state_nav_li("Subscribe Weekly", state_subscription_path(@state, 'weekly'), 'align-justify', active) %>
+
     </ul>
 
-    <div style="margin-top:1em">
+    <div style="margin:3em 0">
       <%= image_tag "http://publicservantsprayer.org/assets/capitols/#{@state.code}-400.png" %>
     </div>
+
+    <div style="margin:10px">
+    <a href="https://twitter.com/<%= @state.twitter_handle %>" class="twitter-follow-button" data-show-count="false">Follow @mattrbarnes</a>
+      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+    </div>
+
+
+    <div class="fb-like-box" data-href="<%= @state.facebook_url %>" data-width="400" data-show-faces="false" data-stream="false" data-header="false"></div>
+
+    <br />
+
+    <% if false %>
+      <div class="fb-subscribe" data-href="https://www.facebook.com/pspindiana" data-show-faces="false" data-width="100"></div>
+    <div style="overflow: hidden; border-right: 1px solid #d5d5d5;">
+      <div class="fb-like-box" data-href="<%= @state.facebook_url %>" data-width="274" data-show-faces="true" data-stream="true" data-header="true"></div>
+    </div>
+  <% end %>

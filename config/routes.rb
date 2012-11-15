@@ -1,5 +1,6 @@
 Psp::Application.routes.draw do
 
+
   root to: 'states#index'
   #match "/states/:code" => "states#show"
   #match "/states", to: 'states#index'
@@ -8,13 +9,14 @@ Psp::Application.routes.draw do
 
   resources :states do
     resources :leaders
-    resources :calendars
+    resource :calendar
     resources :subscriptions
   end
 
-  match "/states/:state_id/calendars/daily/twitter", to: "states#daily_twitter_feed", as: "daily_twitter_feed"
-  match "/states/:state_id/calendars/daily/email", to: "states#daily_email_feed", as: "daily_email_feed"
-  match "/states/:state_id/calendars/weekly/email", to: "states#weekly_email_feed", as: "weekly_email_feed"
+  match "/states/:id/calendars/daily/twitter", to: "states#twitter", as: "daily_twitter_feed"
+
+  #match "/states/:id/calendars/daily/email", to: "states#daily_email_feed", as: "daily_email_feed"
+  #match "/states/:id/calendars/weekly/email", to: "states#weekly_email_feed", as: "weekly_email_feed"
   match "/states/:id/calendars/daily/:year/:month/:day", to: "states#show", as: "daily_calendar"
   match "/states/:id/calendars/weekly/:year/:month/:day", to: "states#show", as: "weekly_calendar"
 
@@ -75,5 +77,11 @@ Psp::Application.routes.draw do
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id))(.:format)'
 
-  mount_browsercms
+  # This line mounts Refinery's routes at the root of your application.
+  # This means, any requests to the root URL of your application will go to Refinery::PagesController#home.
+  # If you would like to change where this extension is mounted, simply change the :at option to something different.
+  #
+  # We ask that you don't use the :as option here, as Refinery relies on it being the default of "refinery"
+  mount Refinery::Core::Engine, :at => '/'
+
 end

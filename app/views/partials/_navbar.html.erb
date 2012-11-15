@@ -7,18 +7,19 @@
         <span class="icon-bar"></span>
       </a>
 
-      <% if usaprays? %>
-        <%#= link_to "USA Prays", root_path, class: "brand" %>
-        <%= link_to "USA Prays", "/", class: "brand" %>
-      <% else %>
-        <%#= link_to "Public Servants' Prayer", root_path, class: "brand" %>
-        <%= link_to "Public Servants' Prayer", "/", class: "brand" %>
-      <% end %>
+     <%= link_to "Public Servants' Prayer", root_path, class: "brand" %>
 
 
       <div class="nav-collapse">
         <ul class="nav pull-right">
-          <li class="active"><%= link_to "Find Your State", "/states" %></li>
+          <% css = params[:path] == "about" ? "active" : "" %>
+          <li class="<%= css %>"><%= link_to "About", "/about" %></li>
+
+          <% css = params[:path] == "how-to-pray-for-leaders" ? "active" : "" %>
+          <li class="<%= css %>"><%= link_to "How to Pray for Leaders", "/how-to-pray-for-leaders" %></li>
+
+          <% css = (params[:controller] == "states" and params[:action] == "index") ? "active" : "" %>
+          <li class="<%= css %>"><%= link_to "Find Your State", "/states" %></li>
         </ul>
       </div>
     </div>

@@ -2,7 +2,7 @@
 <html>
   <%= render :partial => 'partials/head' %>
   <body>
-    <%= cms_toolbar %>
+    <%= render :partial => 'partials/facebook_sdk' %>
     <%= render :partial => 'partials/navbar' %>
 
     <div class="container">
@@ -12,8 +12,14 @@
 
         <div class="span9">
           <%= yield :page_title %>
-          <%= yield %>
-          <div id="main"><%= container :main %></div>
+          <div class="row">
+            <div class="span3">
+              <%= render :partial => 'partials/left_column_states' %>
+            </div>
+            <div class="span6">
+              <%= yield %>
+            </div>
+          </div>
         </div>
 
         <div class="span3" style="padding:0.25">

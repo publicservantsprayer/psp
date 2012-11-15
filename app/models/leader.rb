@@ -20,8 +20,20 @@ class Leader < Hashie::Mash
     [district, residence].reject{|i|i.blank?}.join(" - ")
   end
 
-  def family_info
-    "#{spouse}\n#{family}".strip
+  def name
+    self['name'] || ""
+  end
+
+  def title 
+    self['title'] || ""
+  end
+
+  def email 
+    self['email'] || ""
+  end
+
+  def photo_src
+    self['photo_src'] || "placeholder.jpg"
   end
 
 end

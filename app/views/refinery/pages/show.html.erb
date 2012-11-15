@@ -1,0 +1,12 @@
+<% content_for :page_title do %>
+  <h1 class="page-header"><%= @page.title%></h1>
+<% end %>
+
+<div class="row">
+  <div class="span3">
+    <%=raw @page.content_for(:side_body) %>
+  </div>
+  <div class="span6">
+    <%=raw @page.content_for(:body) %>
+  </div>
+</div>

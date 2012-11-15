@@ -1,56 +1,45 @@
 class StatesController < ApplicationController
-  layout "templates/states"
 
   def index
-    render layout: "templates/application"
+    render layout: "application"
   end
 
   def show
+    cookies[:state_code] = params[:id]
     @state = UsState.new(params[:id])
-    @legislators = LegislatorSelector.today(@state)
+    @date = build_date
+    @leaders = LeaderSelector.for_day(@state, @date)
 
     respond_to do |format|
       format.html
-      format.pdf do
-        @sunday = @date.next_week.next_day(6)
-        render pdf: "calendar.pdf",
-          orientation: "Landscape"
-      end
+      format.rss { render :layout => false } #show.rss.builder
     end
   end
 
-  def daily_twitter_feed
-    @state = UsState.new(params[:state_id])
-    @legislators = LegislatorSelector.today(@state)
-    @member0= @legislators[0]
-    @member1= @legislators[1]
-    @member2= @legislators[2]
+  def twitter
+    @state = UsState.new(params[:id])
+    @date = build_date
+    @leaders = LegislatorSelector.for_day(@state, @date)
 
     respond_to do |format|
-      format.rss { render :layout => false } #index.rss.builder
+      format.rss { render :layout => false } #twitter.rss.builder
     end
   end
 
-  def daily_email_feed
-    @date = Date.current
-    @state = UsState.new(params[:state_id])
-    @member0 = @state.member_zero(@date)
-    @member1 = @state.member_one(@date)
-    @member2 = @state.member_two(@date)
+  def email
+    @state = UsState.new(params[:id])
+    @date = build_date
+    @leaders = LegislatorSelector.for_day(@state, @date)
 
-    respond_to do |format|
-      format.rss { render :layout => false } #index.rss.builder
-    end
+    render layout: false
   end
 
-  def weekly_email_feed
-    @date = Date.current
-    @sunday = @date.next_week.next_day(6)
-    @state = UsState.new(params[:state_id])
+  private
 
-    respond_to do |format|
-      format.html
-      format.rss { render :layout => false } #index.rss.builder
+    def build_date
+      year = params[:year] || Date.current.year
+      month = params[:month] || Date.current.month
+      day = params[:day] || Date.current.day
+      Date.new(year.to_i, month.to_i, day.to_i)
     end
-  end
 end

@@ -7,9 +7,12 @@ describe "UsState" do
   end
 
   it "knows its own leaders" do
-    VCR.use_cassette('us_state/leaders') do
       state = UsState.new('tx')
       state.leaders.should_not be_empty 
-    end
+  end
+
+  it "shows mashed name" do
+    state = UsState.new('nc')
+    state.mashed_name.should == "northcarolina"
   end
 end

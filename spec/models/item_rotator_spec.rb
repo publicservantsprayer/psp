@@ -1,50 +1,62 @@
 require 'spec_helper'
 
-# Given a set of items, ItemRotator
-# rotates through them at a velocity of
-# of @rate per @tick
 describe ItemRotator do
   let :rotator do
-    rotator = ItemRotator.new
-    rotator.items = [:a, :b, :c, :d, :e, :f, :g]
-    rotator
+    rotator = ItemRotator.new(items: [:a, :b, :c, :d, :e, :f, :g])
   end
 
-  it "returns selected items" do
-    rotator.rate = 3
-    rotator.pointer = 0
-    rotator.selected_items.should == [:a, :b, :c]
-  end
-  
-  it "rotates items on one tick" do
-    rotator.rate = 3
-    rotator.pointer = 0
-    rotator.tick!
-    rotator.selected_items.should == [:d, :e, :f]
-  end
-  
-  it "rotates items twice on two ticks" do
-    rotator.rate = 3
-    rotator.pointer = 0
-    rotator.tick!
-    rotator.tick!
-    rotator.selected_items.should == [:g, :a, :b]
-  end
+  context "#selected_items" do
+    context "rotates" do
+      it "once" do
+        rotator.rotations = 1
+        rotator.selected_items.should == [:b]
+      end
 
-  context '#pointer' do 
-    it 'loops back around' do
-      rotator.rate = 1
-      rotator.pointer = rotator.items.length - 1
-      rotator.tick!
-      rotator.pointer.should == 1
+      it "twice" do
+        rotator.rotations = 2
+        rotator.selected_items.should == [:c]
+      end
+
+      it "at greater rate" do
+        rotator.rate = 3
+        rotator.rotations = 1
+        rotator.selected_items.should == [:d, :e, :f]
+      end
+
+      it "around at greater rate" do
+        rotator.rate = 3
+        rotator.rotations = 2
+        rotator.selected_items.should == [:g, :a, :b]
+      end
     end
 
-    it 'loops back at larger rate' do
-      rotator.rate = 3
-      rotator.pointer = rotator.items.length - 1
-      rotator.tick!
-      rotator.pointer.should == 3
+    context "loops" do
+      it "around" do
+        rotator.rotations = 7
+        rotator.selected_items.should == [:a]
+      end
+
+      it "and around and keeps going" do
+        rotator.rotations = 8
+        rotator.selected_items.should == [:b]
+      end
+    end
+
+    context "returns" do
+      it "selected item" do
+        rotator.selected_items.should == [:a]
+      end
+
+      it "multiple items with no rotation" do
+        rotator.rate = 3
+        rotator.selected_items.should == [:a, :b, :c]
+      end
+
+      it "same selected items when called multiple times" do
+        rotator.rate = 3
+        first_set = rotator.selected_items
+        rotator.selected_items.should == first_set
+      end
     end
   end
-
 end

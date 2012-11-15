@@ -1,5 +1,5 @@
 class LeadersController < ApplicationController
-  layout "templates/states"
+  layout "states"
 
   def index
     @state = UsState.new(params[:state_id])
