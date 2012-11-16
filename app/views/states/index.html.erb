@@ -9,6 +9,25 @@ You are invited to join us as we pray for three elected officials daily.  Use th
 <div class="hidden-phone">
 </div>
 
+<div style="position:relative">
+
+  <%= render :partial => 'map' %>
+
+  <%= render :partial => 'region_button', 
+    locals: {region: 'northeast', position: 'top:0;right:5%'} %>
+
+  <%= render :partial => 'region_button', 
+    locals: {region: 'midwest', position: 'top:0;right:40%'} %>
+
+  <%= render :partial => 'region_button', 
+    locals: {region: 'south', position: 'bottom:50%;right:5%'} %>
+
+  <%= render :partial => 'region_button', 
+    locals: {region: 'west', position: 'top:20%;left:0'} %>
+
+</div>
+
+<% if false %>
 <div class="tabbable tabs-left">
   <ul class="nav nav-tabs">
     <li class="active hidden-phone"><a href="#map" data-toggle="tab">Map</a></li>
@@ -56,3 +75,4 @@ You are invited to join us as we pray for three elected officials daily.  Use th
     </div>
   </div>
 </div>
+<% end %>

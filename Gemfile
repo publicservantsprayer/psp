@@ -67,4 +67,4 @@ gem 'capistrano'
 
 # Content Managment
 gem 'refinerycms'
-
+gem 'refinerycms-blog'
