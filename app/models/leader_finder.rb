@@ -39,6 +39,15 @@ class LeaderFinder
 
     def self.get_leaders(endpoint)
       results = cached_get(endpoint)
+      begin
+        leaders(results)
+      rescue
+        expire_cache(endpoint)
+        leaders(results)
+      end
+    end
+
+    def self.leaders(results)
       leaders = []
       results.each do |data|
         leader = Leader.new
@@ -49,10 +58,13 @@ class LeaderFinder
     end
 
     def self.cached_get(endpoint)
-      #Rails.cache.delete(endpoint)
       Rails.cache.fetch(endpoint) do
         get(endpoint).parsed_response
       end
+    end
+
+    def self.expire_cache(endpoint)
+      Rails.cache.delete(endpoint)
     end
 
 end
