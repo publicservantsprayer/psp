@@ -22,6 +22,18 @@ module Refinery
       def district_residence
         ""
       end
+
+      def religion
+        ""
+      end
+
+      def family
+        spouse
+      end
+
+      def birthday
+        ""
+      end
     end
   end
 end
