@@ -8,6 +8,7 @@ class LeadersController < ApplicationController
   def show
     @leader = LeaderFinder.find(params[:id])
     @state = @leader.state
+    cookies[:state_code] = @state.to_param
   end
 
 end

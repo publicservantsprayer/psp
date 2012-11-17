@@ -20,6 +20,8 @@ Psp::Application.routes.draw do
   match "/states/:id/calendars/daily/:year/:month/:day", to: "states#show", as: "daily_calendar"
   match "/states/:id/calendars/weekly/:year/:month/:day", to: "states#show", as: "weekly_calendar"
 
+  match "/states/:id/:year/:month/:day", to: "states#show", as: "state_date"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

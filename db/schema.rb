@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121115005710) do
+ActiveRecord::Schema.define(:version => 20121117122648) do
 
   create_table "refinery_blog_categories", :force => true do |t|
     t.string   "title"
@@ -65,6 +65,22 @@ ActiveRecord::Schema.define(:version => 20121115005710) do
   add_index "refinery_blog_posts", ["id"], :name => "index_refinery_blog_posts_on_id"
   add_index "refinery_blog_posts", ["slug"], :name => "index_refinery_blog_posts_on_slug"
 
+  create_table "refinery_executives", :force => true do |t|
+    t.string   "name"
+    t.integer  "photo_id"
+    t.string   "title"
+    t.string   "spouse"
+    t.string   "website"
+    t.string   "webform"
+    t.string   "email"
+    t.string   "twitter"
+    t.string   "facebook"
+    t.string   "state_code"
+    t.integer  "position"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "refinery_images", :force => true do |t|
     t.string   "image_mime_type"
     t.string   "image_name"
@@ -75,6 +91,16 @@ ActiveRecord::Schema.define(:version => 20121115005710) do
     t.string   "image_ext"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
+  end
+
+  create_table "refinery_justices", :force => true do |t|
+    t.string   "name"
+    t.integer  "photo_id"
+    t.string   "title"
+    t.string   "spouse"
+    t.integer  "position"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "refinery_page_part_translations", :force => true do |t|
