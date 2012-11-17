@@ -5,6 +5,8 @@ module Refinery
 
       attr_accessible :name, :photo_id, :title, :spouse, :website, :webform, :email, :twitter, :facebook, :state_code, :position
 
+      attr_accessor :religion, :family, :birthday
+
       acts_as_indexed :fields => [:name, :title, :spouse, :website, :webform, :email, :twitter, :facebook, :state_code]
 
       validates :name, :presence => true, :uniqueness => true
@@ -20,18 +22,6 @@ module Refinery
       end
 
       def district_residence
-        ""
-      end
-
-      def religion
-        ""
-      end
-
-      def family
-        spouse
-      end
-
-      def birthday
         ""
       end
     end
