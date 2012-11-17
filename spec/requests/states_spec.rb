@@ -94,12 +94,10 @@ describe "States page", :skip => false do
 
   context "Cookies between controllers" do
     it "should remember state via cookies" do
-      pending
-      #visit "/states/tx/"
-      #click_on("State Leaders")
-      #click_on(find(".thumbnail"))
-      #click_on("State Home")
-      #current_path.should == "/states/tx"
+      visit "/states/ca"
+      visit "/leaders/us-rep-ron-paul"
+      click_on("State Home")
+      current_path.should == "/states/tx"
     end
   end
 
