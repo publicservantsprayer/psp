@@ -1,7 +1,7 @@
 PATH
   remote: vendor/extensions
   specs:
-    refinerycms-executives (1.0)
+    refinerycms-executives (1.0.1)
       refinerycms-core (~> 2.0.8)
     refinerycms-justices (1.0)
       refinerycms-core (~> 2.0.8)
