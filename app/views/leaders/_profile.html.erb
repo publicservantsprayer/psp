@@ -27,7 +27,7 @@
           <div style="text-align:right;padding-left:0.5em">
             <ul class="unstyled">
               <%= content_tag('li', link_to("Website", leader.website)) unless leader.website.blank? %>
-              <%= content_tag('li', link_to("Contact Form", leader[:webform])) unless leader[:webform].blank? %>
+              <%= content_tag('li', link_to("Contact", leader[:webform])) unless leader[:webform].blank? %>
               <%= content_tag('li', link_to("Facebook", leader.facebook)) unless leader.facebook.blank? %>
               <%= content_tag('li', link_to("Email", "mailto: #{leader.email}")) unless leader.email.blank? %>
               <%= content_tag('li', link_to("Twitter", leader.twitter)) unless leader[:twitter].blank? %>

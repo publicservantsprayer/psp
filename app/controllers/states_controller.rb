@@ -31,7 +31,10 @@ class StatesController < ApplicationController
     @date = build_date
     @leaders = LegislatorSelector.for_day(@state, @date)
 
-    render layout: false
+    respond_to do |format|
+      format.html { render :layout => false } 
+      format.rss { render :layout => false } 
+    end
   end
 
   private
