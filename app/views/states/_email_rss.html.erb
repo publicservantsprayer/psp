@@ -1,12 +1,10 @@
 <table cellpadding="0" cellspacing="0" border="0" align="center">
   <tr>
     <td valign="top" style="text-align:center;!important;background-color: #ffffff;padding: 1em;margin: 1em">
-      <h1 style="font-size:32px;color:#143e76 !important">Leaders Being Prayed For Today</h1>
-      <h2 style="color:#333333 !important"><%= @date.strftime("%A, %B %-d, %Y") %></h2>
-      <div style="position:relative">
-        <%= image_tag "http://publicservantsprayer.org/assets/capitols/#{@state.code}-400.png" %>
-        <div style="font-size:38px;color:#700f16 !important;font-weight:bold;position:relative;bottom:35px"><%= @state.name %></div>
-      </div>
+      <h1 style="text-align:center;font-size:32px;color:#143e76 !important">Leaders Being Prayed For Today</h1>
+      <h2 style="text-align:center;color:#333333 !important"><%= @date.strftime("%A, %B %-d, %Y") %></h2>
+      <%= image_tag "http://publicservantsprayer.org/assets/capitols/#{@state.code}-400.png" %>
+      <h3 style="font-size:38px;color:#700f16 !important;font-weight:bold;position:relative;bottom:35px"><%= @state.name %></h3>
     </td>
   </tr>
 
@@ -30,7 +28,7 @@
   </tr>
   <tr>
     <td valign="top" style="text-align:center;!important;background-color: #ffffff;padding: 1em;margin: 1em">
-      <%= image_tag "psp-logo-foundation.png" %>
+      <%= link_to(image_tag("http://publicservantsprayer.org/assets/psp-logo-foundation.png", alt: "Public Servants' Prayer"), state_url(@state)) %>
     </td>
   </tr>
 </table>

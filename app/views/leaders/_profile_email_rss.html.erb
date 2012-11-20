@@ -2,7 +2,7 @@
   <tr>
     <td valign="top">
       <br />
-      <%= image_tag leader.photo_src %>
+      <%= image_tag leader.photo_src, alt: "Photo of #{leader.name.strip}. (Show images to view)" %>
     </td>
     <td>
       <h2><%= leader.name.strip %> <span style="font-size:14px;color:#333333"><%= leader.title.strip %></span></h2>
