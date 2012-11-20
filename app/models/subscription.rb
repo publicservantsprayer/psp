@@ -26,7 +26,7 @@ class Subscription
 
   def save
     if valid?
-      mail_chimp.subscribe_to_segment(email, segment.name, merge_vars)
+      mail_chimp.subscribe_to_segment(email, segment, merge_vars)
     else
       false
     end

@@ -30,26 +30,11 @@ describe MailChimp do
     end
   end
 
-  it 'can create segment' do
-    VCR.use_cassette "mail_chimp/create_segment" do
-      mc.delete_segment('segment-name')
-      mc.create_segment('segment-name')
-      mc.segments.collect{|s|s['name']}.include?('segment-name').should be_true
-    end
-  end
-
-  it 'can delete segment' do
-    VCR.use_cassette "mail_chimp/delete_segment" do
-      mc.create_segment('segment-name')
-      mc.delete_segment('segment-name')
-      mc.segments.collect{|s|s['name']}.include?('segment-name').should be_false
-    end
-  end
-
   it 'can subscribe email list and segment' do
     VCR.use_cassette "mail_chimp/subscribe_to_segment" do
-      mc.create_segment('segment-name')
-      mc.subscribe_to_segment('test.email@gmail.com', 'segment-name', 'NAME' => 'test person')["success"].should == 1
+      segment = MailListSegment.new(UsState.new('tx'), 'Testcycle')
+      mc.create_segment(segment)
+      mc.subscribe_to_segment('test.email@gmail.com', segment, 'NAME' => 'test person')["success"].should == 1
     end
   end
 

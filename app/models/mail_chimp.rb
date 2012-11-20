@@ -12,12 +12,17 @@ class MailChimp
     mc('list_members')
   end
 
-  def create_segment(name)
-    mc('list_static_segment_add', name: name)
+  def create_segment(segment)
+    mc('list_static_segment_add', name: segment.name)
   end
 
-  def delete_segment(name)
-    mc('list_static_segment_del', seg_id: id_of_segment(name))
+  def delete_segment(segment)
+    mc('list_static_segment_del', seg_id: segment.mail_chimp_id)
+  end
+
+  def subscribe_to_segment(email, segment, merge_vars)
+    subscribe(email, merge_vars)
+    add_to_segment(email, segment)
   end
 
   def subscribe(email, merge_vars)
@@ -30,16 +35,11 @@ class MailChimp
       })
   end
 
-  def add_to_segment(email, seg_name)
+  def add_to_segment(email, segment)
     mc('list_static_segment_members_add', 
-       seg_id: id_of_segment(seg_name),
+       seg_id: segment.mail_chimp_id,
        batch: [email]
       )
-  end
-
-  def subscribe_to_segment(email, seg_name, merge_vars)
-    subscribe(email, merge_vars)
-    add_to_segment(email, seg_name)
   end
 
   private
@@ -48,11 +48,4 @@ class MailChimp
       Gibbon.new.send(message, {id: list_id}.merge(args))
     end
 
-    def id_of_segment(name)
-      name_ids = {}
-      segments.each do |segment|
-        name_ids[segment['name']] = segment['id']
-      end
-      name_ids[name]
-    end
 end

@@ -7,7 +7,7 @@ class MailListSegment
   end
 
   def name
-    "#{state.code}-#{cycle}"
+    "#{cycle.titlecase}-#{state.code.upcase}-#{state.name}"
   end
 
   def public_name
@@ -19,6 +19,19 @@ class MailListSegment
   end
 
   def create
-    MailChimp.new.create_segment(name)
+    MailChimp.new.create_segment(self)
+  end
+
+  def mail_chimp_id(segments=nil)
+    segments = MailChimp.new.segments unless segments
+    name_ids = {}
+    segments.each do |segment|
+      name_split = segment['name'].split('-')
+      seg_cycle = name_split[0].downcase
+      seg_state_code = name_split[1].downcase
+      seg_name = [seg_state_code, seg_cycle].join('-')
+      name_ids[seg_name] = segment['id']
+    end
+    name_ids[[state_code.downcase, cycle.downcase].join('-')]
   end
 end
