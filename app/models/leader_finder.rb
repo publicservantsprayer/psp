@@ -2,8 +2,7 @@ require 'httparty'
 
 class LeaderFinder
   include HTTParty
-  #base_uri 'api.publicservantsprayer.org'
-  base_uri 'localhost:8080'
+  base_uri 'api.publicservantsprayer.org'
 
   def self.find(slug)
     result = get("/v1/leaders/#{slug}")
