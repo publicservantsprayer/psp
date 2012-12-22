@@ -11,8 +11,10 @@ class Leader < Hashie::Mash
   end
 
   def birthday
-    if born_on
-      born_on.strftime("#B %e")
+    unless born_on.blank?
+      Date.parse(born_on).strftime("%B %e")
+    else
+      ""
     end
   end
 

@@ -58,11 +58,8 @@ describe LegislatorSelector do
   end
 
   context "#self.for_day" do
-    it "returns a complete array of legislators" do
-      legislators = LegislatorSelector.new(state, b_day).us_congress +
-        LegislatorSelector.new(state, b_day).state_senate +
-        LegislatorSelector.new(state, b_day).state_house
-      LegislatorSelector.for_day(state, b_day).should == legislators
+    it "returns an array of legislators for specific day" do
+      LegislatorSelector.for_day(state, b_day).length.should == 3
     end
   end
 end

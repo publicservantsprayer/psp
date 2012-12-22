@@ -14,4 +14,14 @@ describe Leader do
     ron = LeaderFinder.find('us-rep-ron-paul')
     ron.state.should == UsState.new('tx')
   end
+
+  it "returns bithday without year" do
+    guy = Leader.new("born_on" => "1972-09-15")
+    guy.birthday.should == "September 15"
+  end
+
+  it "returns bithday without year" do
+    guy = Leader.new("born_on" => "")
+    guy.birthday.should == ""
+  end
 end

@@ -9,10 +9,8 @@ class LegislatorSelector
   end
 
   def self.for_day(state, date)
-    selected = LegislatorSelector.new(state, date)
-    selected.us_congress +
-    selected.state_senate +
-    selected.state_house
+    selected = self.new(state, date)
+    selected.select_all_legislators
   end
 
   def us_congress
@@ -32,7 +30,15 @@ class LegislatorSelector
     "Legislator"
   end
 
+  def select_all_legislators
+    selected_items(legislators, 3)
+  end
+
   private
+
+    def legislators 
+      LeaderFinder.by_state(@state_code)
+    end
 
     def rotation_select(chamber, rate=1)
       name = "#{@state_code}_#{chamber}"
