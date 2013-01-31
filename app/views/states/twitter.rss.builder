@@ -8,7 +8,7 @@ xml.rss :version => "2.0" do
       xml.link daily_calendar_url(params[:id], @date.year, @date.month, @date.day)
       xml.guid daily_calendar_url(params[:id], @date.year, @date.month, @date.day)
       xml.pubDate ((@date.to_time) + 9.hours).to_s(:rfc822)
-      xml.title "Please pray today for: #{@leaders[0].prefix_name}, #{@leaders[1].prefix_name}, #{@leaders[2].prefix_name}"
+      xml.title "Please pray today for: #{@leaders[0].name}, #{@leaders[1].name}, #{@leaders[2].name}"
     end
   end
 end

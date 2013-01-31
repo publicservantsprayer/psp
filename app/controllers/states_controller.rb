@@ -9,6 +9,7 @@ class StatesController < ApplicationController
     @state = UsState.new(params[:id])
     @date = build_date
     @leaders = LeaderSelector.for_day(@state, @date)
+    Rails.logger.error(@leaders)
 
     respond_to do |format|
       format.html
@@ -19,7 +20,8 @@ class StatesController < ApplicationController
   def twitter
     @state = UsState.new(params[:id])
     @date = build_date
-    @leaders = LegislatorSelector.for_day(@state, @date)
+    @leaders = LeaderSelector.for_day(@state, @date)
+    Rails.logger.error(@leaders)
 
     respond_to do |format|
       format.rss { render :layout => false } #twitter.rss.builder
@@ -29,7 +31,7 @@ class StatesController < ApplicationController
   def email
     @state = UsState.new(params[:id])
     @date = build_date
-    @leaders = LegislatorSelector.for_day(@state, @date)
+    @leaders = LeaderSelector.for_day(@state, @date)
 
     respond_to do |format|
       format.html { render :layout => false } 

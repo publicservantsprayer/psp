@@ -8,24 +8,15 @@
     </td>
   </tr>
 
-  <tr>
-    <td valign="top" style="border:20px solid #ffffff !important;background-color: #F5F5F5;padding: 1em;margin: 1em">
-      <%= render partial: "leaders/profile_email_rss.html.erb", 
-        locals: { leader: @leaders[0] } %>
-    </td>
-  </tr>
-  <tr>
-    <td valign="top" style="border:20px solid #ffffff !important;background-color: #F5F5F5;padding: 1em;margin: 1em">
-      <%= render partial: "leaders/profile_email_rss.html.erb", 
-        locals: { leader: @leaders[1] } %>
-    </td>
-  </tr>
-  <tr>
-    <td valign="top" style="border:20px solid #ffffff !important;background-color: #F5F5F5;padding: 1em;margin: 1em">
-      <%= render partial: "leaders/profile_email_rss.html.erb", 
-        locals: { leader: @leaders[2] } %>
-    </td>
-  </tr>
+  <% @leaders.each do |leader| %>
+    <tr>
+      <td valign="top" style="border:20px solid #ffffff !important;background-color: #F5F5F5;padding: 1em;margin: 1em">
+        <%= render partial: "leaders/profile_email_rss.html.erb", 
+          locals: { leader: leader } %>
+      </td>
+    </tr>
+  <% end %>
+
   <tr>
     <td valign="top" style="text-align:center;!important;background-color: #ffffff;padding: 1em;margin: 1em">
       <%= link_to(image_tag("http://publicservantsprayer.org/assets/psp-logo-foundation.png", alt: "Public Servants' Prayer"), state_url(@state)) %>
