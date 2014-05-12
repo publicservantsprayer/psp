@@ -24,4 +24,16 @@ describe Leader do
     guy = Leader.new("born_on" => "")
     guy.birthday.should == ""
   end
+
+  it "shows twitter handle or name" do
+    guy = Leader.new("twitter" => "http://twitter.com/DavissonforHD73")
+
+    guy.twitter_or_name.should == "@DavissonforHD73"
+  end
+
+  it "shows name if no twitter" do
+    guy = Leader.new("name" => "Dave", "twitter" => "")
+
+    guy.twitter_or_name.should == "Dave"
+  end
 end

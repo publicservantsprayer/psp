@@ -1,5 +1,4 @@
 class Leader < Hashie::Mash
-
   def setup(data)
     data.each do |key, value|
       self[key] = value
@@ -26,11 +25,11 @@ class Leader < Hashie::Mash
     self['name'] || ""
   end
 
-  def title 
+  def title
     self['title'] || ""
   end
 
-  def email 
+  def email
     self['email'] || ""
   end
 
@@ -38,5 +37,15 @@ class Leader < Hashie::Mash
     self['photo_src'] || "placeholder.jpg"
   end
 
+  def twitter_or_name
+    return name if twitter.blank?
+    twitter_handle
+  end
+
+  private
+
+  def twitter_handle
+    "@#{twitter.split('/').last}"
+  end
 end
 
