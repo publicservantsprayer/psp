@@ -44,6 +44,8 @@ group :test, :development do
   gem 'delorean'
   gem 'vcr'
   gem 'fakeweb'
+  gem 'spring'
+  gem 'spring-commands-rspec'
 end
 
 
