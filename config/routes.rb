@@ -14,10 +14,12 @@ Psp::Application.routes.draw do
   end
 
   match "/states/:id/:year/:month/:day/calendars/daily/twitter", to: "states#twitter", as: "daily_twitter_feed"
+  match "/states/:id/:year/:month/:day/calendars/daily/facebook", to: "states#facebook", as: "daily_facebook_feed"
   match "/states/:id/:year/:month/:day/calendars/daily/email", to: "states#email", as: "daily_email"
   match "/states/:id/email", to: "states#email", as: "state_email"
 
   match "/states/:id/calendars/daily/twitter", to: "states#twitter", as: "daily_twitter_feed"
+  match "/states/:id/calendars/daily/facebook", to: "states#facebook", as: "daily_facebook_feed"
 
   match "/states/:id/calendars/daily/email", to: "states#email", as: "daily_email"
   #match "/states/:id/calendars/weekly/email", to: "states#weekly_email_feed", as: "weekly_email_feed"

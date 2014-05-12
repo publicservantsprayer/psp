@@ -28,6 +28,17 @@ class StatesController < ApplicationController
     end
   end
 
+  def facebook
+    @state = UsState.new(params[:id])
+    @date = build_date
+    @leaders = LeaderSelector.for_day(@state, @date)
+    Rails.logger.error(@leaders)
+
+    respond_to do |format|
+      format.rss { render :layout => false } #facebook.rss.builder
+    end
+  end
+
   def email
     @state = UsState.new(params[:id])
     @date = build_date
