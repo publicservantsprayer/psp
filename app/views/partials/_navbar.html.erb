@@ -12,14 +12,14 @@
 
       <div class="nav-collapse">
         <ul class="nav pull-right">
-          <% css = params[:path] == "about" ? "active" : "" %>
-          <li class="<%= css %>"><%= link_to "About", "/about" %></li>
 
-          <% css = params[:path] == "how-to-pray-for-leaders" ? "active" : "" %>
-          <li class="<%= css %>"><%= link_to "How to Pray for Leaders", "/how-to-pray-for-leaders" %></li>
-
-          <% css = (params[:controller] == "states" and params[:action] == "index") ? "active" : "" %>
+          <% css = "" %>
           <li class="<%= css %>"><%= link_to "Find Your State", "/states" %></li>
+
+          <li class="<%= css %>"><%= link_to "Blog", "http://blog.publicservantsprayer.org/" %></li>
+
+          <% css = params[:path] == "about" ? "active" : "" %>
+          <li class="<%= css %>"><%= link_to "About", "http://blog.publicservantsprayer.org/about" %></li>
         </ul>
       </div>
     </div>
