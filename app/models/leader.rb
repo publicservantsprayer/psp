@@ -1,4 +1,6 @@
 class Leader < Hashie::Mash
+  disable_warnings
+
   def setup(data)
     data.each do |key, value|
       self[key] = value

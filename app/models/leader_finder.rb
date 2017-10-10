@@ -2,8 +2,8 @@ require 'httparty'
 
 class LeaderFinder
   include HTTParty
-  base_uri 'api.publicservantsprayer.org'
-  #base_uri 'localhost:8081'
+  #base_uri 'api.publicservantsprayer.org'
+  base_uri 'api:8080'
 
   def self.find(slug)
     result = get("/v1/leaders/#{slug}")
@@ -67,5 +67,4 @@ class LeaderFinder
     def self.expire_cache(endpoint)
       Rails.cache.delete(endpoint)
     end
-
 end
