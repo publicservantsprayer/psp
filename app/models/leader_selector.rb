@@ -15,13 +15,13 @@ class LeaderSelector
   end
 
   def select
-    if first_day_of_month? 
-      ExecutiveSelector.for_day(state_code, date)
-    elsif last_day_of_month?
-      JusticeSelector.for_day(state_code, date)
-    else
+    #if first_day_of_month? 
+    #  ExecutiveSelector.for_day(state_code, date)
+    #elsif last_day_of_month?
+    #  JusticeSelector.for_day(state_code, date)
+    #else
       LegislatorSelector.for_day(state_code, date)
-    end
+    #end
   end
 
   private
