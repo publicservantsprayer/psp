@@ -14,7 +14,8 @@ class DateRange
     days = 0
     test_date = start_date
     while test_date <= end_date
-      days += 1 unless EdgeDay.new(test_date).edge_of_month?
+      #days += 1 unless EdgeDay.new(test_date).edge_of_month?
+      days += 1
       test_date += 1
     end
     days
