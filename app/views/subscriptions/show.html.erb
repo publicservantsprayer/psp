@@ -12,7 +12,13 @@ html: { class: 'well form-horizontal' } do |f| %>
 <p>
 The <%= @segment.public_name %> contains one Federal and two State leaders along
 with some basic public information that will help you more effectively pray.  
+</p>
 
+<p>
+<strong><em>Normally you can sign up for the daily or weekly email here, but we are making some changes.  In the meantime, please sign up on <a href="https://blog.publicservantsprayer.org"/>our blog</a>.</em></em></strong>
+</p>
+
+<% if false %>
 <% if @subscription.cycle == "daily" %>
 <p>It is sent out once per day.</p>
 <% else %>
@@ -27,5 +33,6 @@ with some basic public information that will help you more effectively pray.
 <div class="form-actions">
   <%= f.button :submit, "Subscribe", input_html: {class: "btn btn-large btn-primary"}  %>
 </div>
+<% end %>
 <% end %>
 
