@@ -53,9 +53,9 @@ class StatesController < ApplicationController
   private
 
     def build_date
-      year = params[:year] || Date.today.year
-      month = params[:month] || Date.today.month
-      day = params[:day] || Date.today.day
+      year = params[:year] || Time.current.to_date.year
+      month = params[:month] || Time.current.to_date.month
+      day = params[:day] || Time.current.to_date.day
       Date.new(year.to_i, month.to_i, day.to_i)
     end
 end
